@@ -4,6 +4,8 @@ require 'wofwof'
 require 'spec'
 require 'spec/autorun'
 
+include WofWof
+
 Spec::Runner.configure do |config|
   
 end
