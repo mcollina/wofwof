@@ -15,6 +15,7 @@ tmtags
 
 ## NetBeans
 nbproject
+*.netbeans
 
 ## PROJECT::GENERAL
 coverage
