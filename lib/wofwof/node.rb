@@ -9,5 +9,13 @@ module WofWof
       @source_path = source_path
       @meta_info = meta_info
     end
+
+    def buildable?
+      not dest_path.nil?
+    end
+
+    def build
+      raise "Abstract method build called on object #{self}"
+    end
   end
 end
