@@ -160,6 +160,19 @@ describe Path, "with basic parameters" do
     @instance.should_not match(/gh/)
     @instance.should match(/loc/)
   end
+
+  it "should respond to" do
+    @instance.should respond_to(:<=>)
+  end
+
+  it "should be sortable" do
+    first = Path.new("base", "a")
+    second = Path.new("another/base", "a/b")
+    third = Path.new("base", "a/c")
+    fourth = Path.new("base", "d")
+
+    [fourth, second, first, third].sort.should == [first, second, third, fourth]
+  end
 end
 
 describe Path, "with a Path as constructor argument" do

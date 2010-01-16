@@ -52,5 +52,10 @@ module WofWof
     def parent_of?(children)
       children.child_of?(self)
     end
+
+    def <=>(other)
+      return -1 unless other.respond_to?(:local_path)
+      self.local_path <=> other.local_path
+    end
   end
 end
