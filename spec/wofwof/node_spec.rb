@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
-describe Node, "with basic parameters" do
+describe Node do
 
   before(:each) do
     @source_path = mock "SourcePath"
@@ -30,7 +30,16 @@ describe Node, "with basic parameters" do
     @instance.dest_path.should == path
   end
 
-  it "should respond to build" do
-    @instance.should respond_to(:build)
+  it "should have a meta_info attribute" do
+    @instance.should respond_to(:meta_info)
+  end
+
+  it "should have the meta informations stored in an hash" do
+    @instance.meta_info.should be_kind_of(Hash)
+  end
+
+  it "should have a constructor which accepts also a meta_info hash" do
+    @instance = Node.new(@source_path, :hello => "world")
+    @instance.meta_info.should == { :hello => "world" }
   end
 end
