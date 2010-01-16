@@ -27,8 +27,14 @@ end
 
 Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
+  spec.spec_files = FileList['spec/**/*_spec.rb']
   spec.rcov = true
+  spec.rcov_opts = ["--exclude","lib\/spec,bin\/spec,config\/boot.rb,lib\/rcov"]
+end
+
+require 'spec/rake/verify_rcov'
+RCov::VerifyTask.new(:verify_rcov => :rcov) do |spec|
+  spec.threshold = 100
 end
 
 task :spec => :check_dependencies
