@@ -33,6 +33,10 @@ module WofWof
 
     alias :== :eql?
 
+    def match regexp
+      @local_path.match regexp
+    end
+
     def hash
       @local_path.hash
     end

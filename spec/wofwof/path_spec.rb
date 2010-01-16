@@ -151,6 +151,15 @@ describe Path, "with basic parameters" do
     @instance.should be_parent_of(other)
     other.should be_child_of(@instance)
   end
+
+  it "should respond to match" do
+    @instance.should respond_to(:match)
+  end
+
+  it "should match its local part against the regexp given to =~" do
+    @instance.should_not match(/gh/)
+    @instance.should match(/loc/)
+  end
 end
 
 describe Path, "with a Path as constructor argument" do
