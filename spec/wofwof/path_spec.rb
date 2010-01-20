@@ -173,6 +173,42 @@ describe Path, "with basic parameters" do
 
     [fourth, second, first, third].sort.should == [first, second, third, fourth]
   end
+
+  it "should have a route_to method" do
+    @instance.should respond_to(:route_to)
+  end
+
+  it "should generate the correct route to a node in the same directory" do
+    other = Path.new(@base_path, "other")
+    @instance.route_to(other).should == other.local_path
+  end
+
+  it "should generate the correct route to a node in a deeper directory" do
+    other = Path.new(@base_path, "directory/other")
+    @instance.route_to(other).should == other.local_path
+  end
+
+  it "should generate the correct route to a node in a shallower directory" do
+    other = Path.new(@base_path, "directory/other")
+    other.route_to(@instance).should == "../#{@instance.local_path}"
+  end
+
+  it "should generate the correct route to a node in the same deep directory" do
+    first = Path.new(@base_path, "a/first")
+    second = Path.new(@base_path, "a/second")
+    first.route_to(second).should == "second"
+  end
+
+  it "should generate the correct route to a node in a directory with the same level of deepness" do
+    first = Path.new(@base_path, "a/first")
+    second = Path.new(@base_path, "b/second")
+    first.route_to(second).should == "../#{second.local_path}"
+  end
+
+  it "should generate the correct route to a node with a different base path" do
+    other = Path.new("another_base_path", "other")
+    @instance.route_to(other).should == other.local_path
+  end
 end
 
 describe Path, "with a Path as constructor argument" do
