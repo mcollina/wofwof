@@ -1,5 +1,5 @@
 
-# This spec is based on the following instance variables:
+# This shared spec is based on the following instance variables:
 #  * @instance: the path handler
 #  * @allElements: all paths reachable through the path handler
 #  * @rightPattern: a glob pattern
@@ -45,4 +45,44 @@ share_as :AllPathHandlers do
     paths.should include(*@allElements)
   end
 
+end
+
+# This shared spec is based on the following instance variables:
+#  * @instance: the path handler
+#  * @readablePath: a path which is readable
+#  * @readablePathContent: the content of the readablePath
+share_as :ReadablePathHandlers do
+
+  it "should read the readable path" do
+    content = nil
+    out = @instance.open(@readablePath, "r") do |io|
+      content = io.read
+    end
+
+    content.should == @readablePathContent
+    out.should == @instance
+  end
+end
+
+# This shared spec is based on the following instance variables:
+#  * @instance: the path handler
+#  * @writablePath: a path which is readable
+share_as :WritablePathHandlers do
+
+  it "should read and write the writable path" do
+    writablePathContent = "pua pua"
+    out = @instance.open(@writablePath, "w") do |io|
+      io << writablePathContent
+    end
+    
+    out.should == @instance
+
+    content = nil
+    out = @instance.open(@writablePath, "r") do |io|
+      content = io.read
+    end
+    content.should == writablePathContent
+
+    out.should == @instance
+  end
 end
