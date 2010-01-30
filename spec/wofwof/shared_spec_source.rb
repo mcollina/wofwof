@@ -24,4 +24,24 @@ share_as :AllSources do
   it "should have its prerequisites expressed with an array" do
     @instance.prerequisites.should respond_to(:to_ary)
   end
+
+  it "should respond to <=>" do
+    @instance.should respond_to(:<=>)
+  end
+
+  it "should include Comparable" do
+    @instance.class.ancestors.should include(Comparable)
+  end
+
+  it "should respond to name" do
+    @instance.should respond_to(:name)
+  end
+  
+  it "should have a name which is a String" do
+    @instance.name.should be_kind_of(String)
+  end
+
+  it "should have a name that doesn't include '::'" do
+    @instance.name.should_not =~ /::/
+  end
 end
