@@ -1,3 +1,4 @@
+require 'stringio'
 
 share_as :AllNodes do
 
@@ -43,7 +44,7 @@ share_as :AllNodes do
   end
 
   it "should be buildable if it has got a dest path" do
-    @instance.dest_path = Path.new("dest", "path")
+    @instance.dest_path = mock "Path"
     @instance.should be_buildable
   end
 
@@ -52,7 +53,55 @@ share_as :AllNodes do
     @instance.should_not be_buildable
   end
 
+  it "should respond to template?" do
+    @instance.should respond_to(:template?)
+  end
+
+  it "should not be buildable if it is a template" do
+    @instance.dest_path = mock "Path"
+    @instance.should_receive(:template?).and_return(true)
+    @instance.should_not be_buildable
+  end
+end
+
+share_as :AllStandardNodes do
+  it_should_behave_like :AllNodes
+
   it "should respond to build" do
     @instance.should respond_to(:build)
+  end
+
+  it "should be buildable" do
+    @instance.should be_buildable
+  end
+ 
+  it "should not be a template" do
+    @instance.should_not be_template
+  end
+
+  it "should build some content to the passed IO" do
+    io = StringIO.new
+    lambda { @instance.build(io) }.should_not raise_error
+    io.to_s.should_not == ""
+  end
+end
+
+share_as :AllTemplateNodes do
+  it_should_behave_like :AllNodes
+
+  it "should respond to render" do
+    @instance.should respond_to(:render)
+  end
+
+  it "should not be buildable" do
+    @instance.should be_buildable
+  end
+
+  it "should be a template" do
+    @instance.should be_template
+  end
+
+  it "should build to an hash" do
+    @instance.build.should be_kind_of(Hash)
   end
 end

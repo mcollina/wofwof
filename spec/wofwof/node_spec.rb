@@ -15,7 +15,7 @@ describe Node do
     @instance.meta_info.should == { :hello => "world" }
   end
 
-  it "should raise an error if its build method is called" do
-    lambda { @instance.build }.should raise_error()
+  it "should have a template write attribute" do
+    @instance.should respond_to(:template=)
   end
 end
