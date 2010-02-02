@@ -18,6 +18,18 @@ share_as :AllPathHandlers do
     @instance.should respond_to(:open)
   end
 
+  it "should respond to base_path" do
+    @instance.should respond_to(:base_path)
+  end
+
+  it "should have a not null base_path" do
+    @instance.base_path.should_not be_nil
+  end
+
+  it "should have a base_path with an empty local_path" do
+    @instance.base_path.local_path.should == ""
+  end
+
   it "should have an each method that navigates all specified paths" do
     paths = []
     @instance.each { |e| paths << e }

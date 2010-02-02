@@ -5,7 +5,9 @@ require 'stringio'
 describe PathHandler do
 
   before(:each) do
-    @instance = PathHandler.new
+    @base_path = mock "BasePath"
+    @base_path.should_receive(:local_path).any_number_of_times.and_return("")
+    @instance = PathHandler.new(@base_path)
   end
 
   it "should raise an exception if the open method is called" do
