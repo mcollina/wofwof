@@ -10,6 +10,7 @@ begin
     gem.email = "matteo.collina@gmail.com"
     gem.homepage = "http://github.com/mcollina/wofwof"
     gem.authors = ["Matteo Collina"]
+    gem.add_dependency "liquid", ">= 2.0.0"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "rcov", ">= 0.9.7.1"
     gem.add_development_dependency "cucumber", ">= 0"
@@ -30,7 +31,7 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.libs << 'lib' << 'spec'
   spec.spec_files = FileList['spec/**/*_spec.rb']
   spec.rcov = true
-  spec.rcov_opts = ["--exclude","lib\/spec,bin\/spec,config\/boot.rb,lib\/rcov,spec"]
+  spec.rcov_opts = ["--exclude","lib\/spec,bin\/spec,config\/boot.rb,lib\/rcov,spec,liquid"]
 end
 
 require 'spec/rake/verify_rcov'

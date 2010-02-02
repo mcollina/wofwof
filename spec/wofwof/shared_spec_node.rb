@@ -45,6 +45,7 @@ share_as :AllNodes do
 
   it "should be buildable if it has got a dest path" do
     @instance.dest_path = mock "Path"
+    @instance.should_receive(:template?).and_return(false)
     @instance.should be_buildable
   end
 
