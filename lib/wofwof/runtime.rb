@@ -3,17 +3,11 @@ module WofWof
   class Runtime
     
     attr_reader :nodes
+    attr_reader :sources
       
     def initialize
       @nodes = NodeRepository.new
-    end
-
-    def register(path_handler, source_name)
-      raise NotImplementedError.new
-    end
-
-    def sources
-      raise NotImplementedError.new
+      @sources = []
     end
 
     def render

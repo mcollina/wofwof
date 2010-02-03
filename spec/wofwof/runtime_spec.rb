@@ -5,12 +5,12 @@ describe Runtime do
     @instance = Runtime.new
   end
 
-  it "should respond to register" do
-    @instance.should respond_to(:register)
-  end
-
   it "should respond to sources" do
     @instance.should respond_to(:sources)
+  end
+
+  it "should have a source method that returns an empty array" do
+    @instance.sources.should == []
   end
 
   it "should respond to render" do
