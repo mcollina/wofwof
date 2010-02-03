@@ -60,6 +60,18 @@ describe Source do
       @first.should > @second
       @second.should < @first
     end
+
+    it "should correctly match equals" do
+      @first.should_not == @second
+      @first.should == @first
+    end
+
+    it "should correctly order sources with the same name based on their object id" do
+      first_clone = Source.new
+      first_clone.should_receive(:name).any_number_of_times.and_return("First")
+      @first.should_not == first_clone
+      (@first <=> first_clone).should == (@first.object_id <=> first_clone.object_id)
+    end
   end
 end
 
