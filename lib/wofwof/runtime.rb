@@ -12,7 +12,7 @@ module WofWof
     end
 
     def render
-      nodes = @sources.sort.inject([]) { |ary, source| ary.concat(source.build_nodes) }
+      @sources.sort.each { |source| source.build_nodes(@nodes) }
       nodes.each do |node|
         next unless node.buildable?
         rebased_dest_path = node.dest_path.rebase(dest_path_handler.base_path)

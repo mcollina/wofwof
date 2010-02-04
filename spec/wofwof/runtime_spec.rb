@@ -45,9 +45,9 @@ describe Runtime do
 
   it "should sort and call build_nodes to all sources when calling render" do
     first_source = mock "First Source"
-    first_source.should_receive(:build_nodes).and_return([])
+    first_source.should_receive(:build_nodes).with(@instance.nodes)
     second_source = mock "First Source"
-    second_source.should_receive(:build_nodes).and_return([])
+    second_source.should_receive(:build_nodes).with(@instance.nodes)
 
     first_source.should_receive(:<=>).with(second_source).any_number_of_times.and_return(-1)
     second_source.should_receive(:<=>).with(first_source).any_number_of_times.and_return(1)
@@ -74,7 +74,8 @@ describe Runtime do
     node.should_receive(:dest_path).and_return(dest_path)
 
     source = mock "First Source"
-    source.should_receive(:build_nodes).and_return([node])
+    source.should_receive(:build_nodes).with(@instance.nodes)
+    @instance.nodes.should_receive(:each).and_yield(node)
 
     path_handler = mock "PathHandler"
     path_handler.should_receive(:base_path).and_return(base_path)
@@ -93,7 +94,8 @@ describe Runtime do
     node.should_receive(:buildable?).and_return(false)
 
     source = mock "First Source"
-    source.should_receive(:build_nodes).and_return([node])
+    source.should_receive(:build_nodes).with(@instance.nodes)
+    @instance.nodes.should_receive(:each).and_yield(node)
 
     path_handler = mock "PathHandler" # this mock should receive no messages
 

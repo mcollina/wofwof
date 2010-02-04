@@ -11,7 +11,7 @@ module WofWof
       @name = self.class.name.gsub(/^.*::(\w+)$/, '\1')
     end
 
-    def build_nodes
+    def build_nodes(node_repository)
       raise NotImplementedError.new
     end
 
