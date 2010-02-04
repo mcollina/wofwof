@@ -8,7 +8,7 @@ describe Source do
   end
 
   it "should raise an error when calling build_nodes" do
-    lambda { @instance.build_nodes(mock "PathHandler") }.should raise_error
+    lambda { @instance.build_nodes }.should raise_error(NotImplementedError)
   end
 
   describe "with the build_nodes mocked" do
