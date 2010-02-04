@@ -16,6 +16,21 @@ describe Runtime do
   it "should respond to render" do
     @instance.should respond_to(:render)
   end
+
+  it "should have a dest_path_handler accessor" do
+    @instance.should respond_to(:dest_path_handler)
+    @instance.should respond_to(:dest_path_handler=)
+  end
+
+  it "should have a nil dest_path_handler by default" do
+    @instance.dest_path_handler.should be_nil
+  end
+
+  it "should correctly set the dest_path_handler" do
+    dest_path_handler = mock "Dest PathHandler"
+    @instance.dest_path_handler = dest_path_handler
+    @instance.dest_path_handler.should == dest_path_handler
+  end
   
   it "should respond to nodes" do
     @instance.should respond_to(:nodes)
@@ -26,6 +41,67 @@ describe Runtime do
     count = 0
     @instance.nodes.each { |n| count += 1 }
     count.should == 0
+  end
+
+  it "should sort and call build_nodes to all sources when calling render" do
+    first_source = mock "First Source"
+    first_source.should_receive(:build_nodes).and_return([])
+    second_source = mock "First Source"
+    second_source.should_receive(:build_nodes).and_return([])
+
+    first_source.should_receive(:<=>).with(second_source).any_number_of_times.and_return(-1)
+    second_source.should_receive(:<=>).with(first_source).any_number_of_times.and_return(1)
+
+    @instance.sources << first_source
+    @instance.sources << second_source
+
+    @instance.render
+  end
+
+  it "should correctly build a node" do
+    io = mock "IO"
+
+    base_path = mock "BasePath"
+    
+    rebased_dest_path = mock "RebasedDestPath"
+
+    dest_path = mock "DestPath"
+    dest_path.should_receive(:rebase).with(base_path).and_return(rebased_dest_path)
+
+    node = mock "Node"
+    node.should_receive(:buildable?).and_return(true)
+    node.should_receive(:build).with(io)
+    node.should_receive(:dest_path).and_return(dest_path)
+
+    source = mock "First Source"
+    source.should_receive(:build_nodes).and_return([node])
+
+    path_handler = mock "PathHandler"
+    path_handler.should_receive(:base_path).and_return(base_path)
+    path_handler.should_receive(:open).with(rebased_dest_path, "w").and_yield(io)
+    
+    @instance.dest_path_handler = path_handler
+
+    @instance.sources << source
+
+    @instance.render
+  end
+
+  it "should correctly skip an unbuildable node" do
+
+    node = mock "Node"
+    node.should_receive(:buildable?).and_return(false)
+
+    source = mock "First Source"
+    source.should_receive(:build_nodes).and_return([node])
+
+    path_handler = mock "PathHandler" # this mock should receive no messages
+
+    @instance.dest_path_handler = path_handler
+
+    @instance.sources << source
+
+    @instance.render
   end
 end
 
