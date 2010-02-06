@@ -12,15 +12,33 @@ module WofWof
 
     def render(node, hash={})
       registers = { :current_node => node, :node_repository => @node_repository}
-      @liquid_template.render(hash, :filters => [RouteToFilter], :registers => registers)
+      @liquid_template.render(hash, :registers => registers)
     end
 
-    module RouteToFilter
+    def self.route_to(context, input)
+      regexp = Regexp.new(input)
+      dest_node = context.registers[:node_repository].find { |node| node.source_path =~ regexp }
+      context.registers[:current_node].dest_path.route_to(dest_node.dest_path)
+    end
+
+    module WofWofFilters
       def route_to(input)
-        regexp = Regexp.new(input)
-        dest_node = @context.registers[:node_repository].find { |node| node.source_path =~ regexp }
-        @context.registers[:current_node].dest_path.route_to(dest_node.dest_path)
+        LiquidTemplateNode.route_to(@context, input)
       end
     end
+    Liquid::Template.register_filter(WofWofFilters)
+
+    class RouteTo < Liquid::Tag
+
+      def initialize(tag_name, regexp, tokens)
+        super
+        @regexp = regexp.strip
+      end
+
+      def render(context)
+        LiquidTemplateNode.route_to(context, @regexp)
+      end
+    end
+    Liquid::Template.register_tag("route_to", RouteTo)
   end
 end
