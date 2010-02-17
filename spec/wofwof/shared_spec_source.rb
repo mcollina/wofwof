@@ -1,17 +1,35 @@
 
 share_as :AllSources do
 
+  it "should respond to path_handler" do
+    @instance.should respond_to(:path_handler)
+  end
+
+  it "should respond to path_handler=" do
+    @instance.should respond_to(:path_handler=)
+  end
+
+  it "should have a working path_handler accessor" do
+    @instance.path_handler = nil
+    @instance.path_handler.should be_nil
+
+    path_handler = mock "PathHandler"
+    @instance.path_handler = path_handler
+    @instance.path_handler.should == path_handler
+  end
+
   it "should respond to build_nodes" do
     @instance.should respond_to(:build_nodes)
   end
-
-  it "should have a build_nodes method that returns an array" do
-    @instance.build_nodes.should respond_to(:to_ary)
+  
+  it "should have 0-argument constructor" do
+    lambda { @instance.class.new() }.should_not raise_error
   end
 
-  it "should have 0-argument constructor" do
-    klass = @instance.class
-    lambda { klass.new }.should_not raise_error
+  it "should have 1-argument constructor which sets the path_handler" do
+    path_handler = mock "PathHandler"
+    lambda { @instance = @instance.class.new(path_handler) }.should_not raise_error
+    @instance.path_handler.should == path_handler
   end
   
   it "should respond to prerequisites" do

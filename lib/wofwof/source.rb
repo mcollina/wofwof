@@ -5,10 +5,12 @@ module WofWof
 
     attr_reader :prerequisites
     attr_reader :name
+    attr_accessor :path_handler
 
-    def initialize
+    def initialize(path_handler=nil)
       @prerequisites = []
       @name = self.class.name.gsub(/^.*::(\w+)$/, '\1')
+      @path_handler = path_handler
     end
 
     def build_nodes(node_repository)
