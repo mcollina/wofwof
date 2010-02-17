@@ -8,4 +8,5 @@ module WofWof
   autoload :Runtime, "wofwof/runtime"
   autoload :LiquidTemplateNode, "wofwof/liquid_template_node"
   autoload :LiquidTemplateSource, "wofwof/liquid_template_source"
+  autoload :CopyNode, "wofwof/copy_node"
 end

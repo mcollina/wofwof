@@ -15,10 +15,6 @@ share_as :AllNodes do
     @instance.should respond_to(:dest_path=)
   end
 
-  it "should have a nil dest_path by default" do
-    @instance.dest_path.should be_nil
-  end
-
   it "should be able to set an object as a dest_path" do
     path = mock "DestPath"
     @instance.dest_path = path

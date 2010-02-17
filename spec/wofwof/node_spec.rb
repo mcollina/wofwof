@@ -18,4 +18,8 @@ describe Node do
   it "should have a template write attribute" do
     @instance.should respond_to(:template=)
   end
+  
+  it "should have a nil dest_path by default" do
+    @instance.dest_path.should be_nil
+  end
 end
