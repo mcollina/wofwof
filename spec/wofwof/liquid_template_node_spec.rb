@@ -60,6 +60,26 @@ describe LiquidTemplateNode do
     instance.render(@node).should == "path/to/heaven"
   end
 
+  it "should have a link_to tag" do
+    wrong_node = mock "Wrong Node"
+    wrong_path = mock "Wrong path"
+    wrong_node.should_receive(:source_path).and_return(wrong_path)
+    wrong_path.should_receive(:=~).with(/a_node/).and_return false
+
+    right_node = mock "Right Node"
+    right_source_path = mock "Right source path"
+    right_node.should_receive(:source_path).and_return(right_source_path)
+    right_source_path.should_receive(:=~).with(/a_node/).and_return true
+    right_dest_path = mock "Right dest path"
+    right_node.should_receive(:dest_path).and_return(right_dest_path)
+
+    @node_dest_path.should_receive(:route_to).with(right_dest_path).and_return("path/to/heaven")
+
+    @node_repository.should_receive(:find).and_yield(wrong_node).and_yield(right_node).and_return(right_node)
+    instance = build("{% link_to a_node, 'Hello World' %}")
+    instance.render(@node).should == "<a href=\"path/to/heaven\">Hello World</a>"
+  end
+
   describe "as a generic node" do
 
     it_should_behave_like AllNodes

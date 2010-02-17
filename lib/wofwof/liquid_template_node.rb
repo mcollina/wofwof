@@ -40,5 +40,26 @@ module WofWof
       end
     end
     Liquid::Template.register_tag("route_to", RouteTo)
+
+    class LinkTo < Liquid::Tag
+      SyntaxMulti = /^([a-zA-Z_0-9]+)[, ]*'(.*)'$/
+
+      def initialize(tag_name, markup, tokens)
+        if markup.strip! =~ SyntaxMulti
+          @regexp = $1.strip
+          @title = $2
+        else
+          raise SyntaxError.new("Syntax Error in 'link_to' - Valid syntax: link_to [node], [title]")
+        end
+
+        super
+      end
+
+      def render(context)
+        route = LiquidTemplateNode.route_to(context, @regexp)
+        "<a href=\"#{route}\">#{@title}</a>"
+      end
+    end
+    Liquid::Template.register_tag("link_to", LinkTo)
   end
 end
