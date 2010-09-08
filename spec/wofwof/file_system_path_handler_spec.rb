@@ -10,15 +10,15 @@ describe FileSystemPathHandler do
     @base_path = Path.new("full_path", "", true) 
     @instance = FileSystemPathHandler.new(@base_path)
 
-    @allElements = []
-    @rightPattern = "right"
-    @rightPatternElements = []
-    @wrongPattern = "wrong"
+    @all_elements = []
+    @right_pattern = "right"
+    @right_pattern_elements = []
+    @wrong_pattern = "wrong"
 
     directories = ["right", "wrong"]
     directories.each do |dir|
       Dir.should_receive(:directory?).any_number_of_times.with(dir).and_return(true)
-      @allElements << Path.new(@base_path, dir, true)
+      @all_elements << Path.new(@base_path, dir, true)
     end
     
     files = []
@@ -27,7 +27,7 @@ describe FileSystemPathHandler do
         file_name = "#{dir_name}/#{i}"
         files << file_name
         Dir.should_receive(:directory?).any_number_of_times.with(file_name).and_return(false)
-        @allElements << Path.new(@base_path, file_name)
+        @all_elements << Path.new(@base_path, file_name)
       end
     end
 
@@ -40,10 +40,10 @@ describe FileSystemPathHandler do
     it_should_behave_like ReadablePathHandlers
 
     before(:each) do
-      @readablePath = mock "readable path"
-      @readablePath.should_receive(:full_path).and_return("/the/full/path")
-      @readablePathContent = "AAAAAAAAAAAAAA"
-      io = StringIO.new(@readablePathContent)
+      @readable_path = mock "readable path"
+      @readable_path.should_receive(:full_path).and_return("/the/full/path")
+      @readable_pathContent = "AAAAAAAAAAAAAA"
+      io = StringIO.new(@readable_pathContent)
       Kernel.should_receive(:open).with("/the/full/path", "r").and_yield(io)
     end
   end
@@ -53,8 +53,8 @@ describe FileSystemPathHandler do
     it_should_behave_like WritablePathHandlers
 
     before(:each) do
-      @writablePath = mock "writable path"
-      @writablePath.should_receive(:full_path).twice.and_return("/the/full/path")
+      @writable_path = mock "writable path"
+      @writable_path.should_receive(:full_path).twice.and_return("/the/full/path")
       writeIO = StringIO.new()
       Kernel.should_receive(:open).with("/the/full/path", "w").and_yield(writeIO).
         and_return do
