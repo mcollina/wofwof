@@ -1,0 +1,3 @@
+
+TODO:
+  * Split the AllPathHandler in two spec, one for glob e one for the rest

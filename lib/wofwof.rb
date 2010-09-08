@@ -9,4 +9,5 @@ module WofWof
   autoload :LiquidTemplateNode, "wofwof/liquid_template_node"
   autoload :LiquidTemplateSource, "wofwof/liquid_template_source"
   autoload :CopyNode, "wofwof/copy_node"
+  autoload :FileSystemPathHandler, "wofwof/file_system_path_handler"
 end
