@@ -12,12 +12,15 @@ module WofWof
 
     def render(node, hash={})
       registers = { :current_node => node, :node_repository => @node_repository}
-      @liquid_template.render(hash, :registers => registers)
+      result = @liquid_template.render(hash, :registers => registers)
+      @liquid_template.errors.each { |error| raise error }
+      result
     end
 
     def self.route_to(context, input)
       regexp = Regexp.new(input)
       dest_node = context.registers[:node_repository].find { |node| node.source_path =~ regexp }
+      raise NoRouteToNodeError.new(input) if dest_node.nil?
       context.registers[:current_node].dest_path.route_to(dest_node.dest_path)
     end
 
@@ -61,5 +64,11 @@ module WofWof
       end
     end
     Liquid::Template.register_tag("link_to", LinkTo)
+
+    class NoRouteToNodeError < RuntimeError 
+      def initialize(pattern)
+        super("No route to node: #{pattern}")
+      end
+    end
   end
 end

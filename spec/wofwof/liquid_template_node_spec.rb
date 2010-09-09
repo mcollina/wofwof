@@ -60,6 +60,18 @@ describe LiquidTemplateNode do
     instance.render(@node).should == "path/to/heaven"
   end
 
+  it "should have a route_to tag that throw exception if the dest node wasn't found" do
+    wrong_node = mock "Wrong Node"
+    wrong_path = mock "Wrong path"
+    wrong_node.should_receive(:source_path).and_return(wrong_path)
+    wrong_path.should_receive(:=~).with(/a_node/).and_return false
+
+    @node_repository.should_receive(:find).and_yield(wrong_node).and_return(nil)
+    
+    instance = build("{% route_to a_node %}")
+    lambda { instance.render(@node) }.should raise_error LiquidTemplateNode::NoRouteToNodeError
+  end
+
   it "should have a link_to tag" do
     wrong_node = mock "Wrong Node"
     wrong_path = mock "Wrong path"
@@ -78,6 +90,18 @@ describe LiquidTemplateNode do
     @node_repository.should_receive(:find).and_yield(wrong_node).and_yield(right_node).and_return(right_node)
     instance = build("{% link_to a_node, 'Hello World' %}")
     instance.render(@node).should == "<a href=\"path/to/heaven\">Hello World</a>"
+  end
+
+  it "should have a link_to tag that throw exception if the dest node wasn't found" do
+    wrong_node = mock "Wrong Node"
+    wrong_path = mock "Wrong path"
+    wrong_node.should_receive(:source_path).and_return(wrong_path)
+    wrong_path.should_receive(:=~).with(/a_node/).and_return false
+
+    @node_repository.should_receive(:find).and_yield(wrong_node).and_return(nil)
+
+    instance = build("{% link_to a_node, 'Hello World' %}")
+    lambda { instance.render(@node) }.should raise_error LiquidTemplateNode::NoRouteToNodeError
   end
 
   describe "as a generic node" do
