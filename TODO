@@ -7,6 +7,8 @@ TODO to 0.1:
   * Update liquid to latest dependency.
   * Add documentation for the main classes: Runtime, Source, Node, 
     NodeRepository, Path, PathHandler.
+  * Add a Logging system.
+  * Add a small DSL for configuration.
 
 FUTURE:
   * Create a "plugins" module to include the optional classes.
