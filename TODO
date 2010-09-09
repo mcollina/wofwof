@@ -1,3 +1,16 @@
 
-TODO:
-  * Split the AllPathHandler in two spec, one for glob e one for the rest
+TODO to 0.1:
+  * Split the AllPathHandler in two spec, one for glob e one for the rest.
+  * Add a LiquidNode and a LiquidSource.
+  * Fix cucumber setup.
+  * Add a simple feature for building an "hello world" static website.
+  * Update liquid to latest dependency.
+  * Add documentation for the main classes: Runtime, Source, Node, 
+    NodeRepository, Path, PathHandler.
+
+FUTURE:
+  * Create a "plugins" module to include the optional classes.
+  * Refactor dependency managament of SourceS.
+  * Add ability to include templates in templates.
+  * Add i18n for templates.
+  * Add i18n for node content (one node for every language).
