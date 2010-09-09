@@ -10,4 +10,5 @@ module WofWof
   autoload :LiquidTemplateSource, "wofwof/liquid_template_source"
   autoload :CopyNode, "wofwof/copy_node"
   autoload :FileSystemPathHandler, "wofwof/file_system_path_handler"
+  autoload :AssetsSource, "wofwof/assets_source"
 end

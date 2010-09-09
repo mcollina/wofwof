@@ -9,13 +9,16 @@ describe CopyNode do
   before(:each) do
     @source_path = mock "SourcePath"
     @path_handler = mock "PathHandler"
-    @dest_path = mock "SourcePath"
-    @instance = CopyNode.new(@source_path, @dest_path, @path_handler)
+    @instance = CopyNode.new(@source_path, @path_handler)
+  end
+
+  it "should have a dest_path equal to its source_path" do
+    @instance.dest_path.should == @source_path
   end
 
   it "should have a constructor which accepts also a meta_info hash" do
     lambda { 
-      @instance = CopyNode.new(@source_path, @dest_path, @path_handler, :hello => "world")
+      @instance = CopyNode.new(@source_path, @path_handler, :hello => "world")
     }.should_not raise_error
     @instance.meta_info.should == { :hello => "world" }
   end
