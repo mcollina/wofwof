@@ -1,7 +1,7 @@
 
 TODO to 0.1:
   * Split the AllPathHandler in two spec, one for glob e one for the rest.
-  * Add a LiquidNode and a LiquidSource.
+  * Add a PageSource.
   * Fix cucumber setup.
   * Add a simple feature for building an "hello world" static website.
   * Update liquid to latest dependency.
