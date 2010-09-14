@@ -47,6 +47,21 @@ describe NodeRepository do
     @instance.class.ancestors.should include(Enumerable)
   end
 
+  it "should have a default_template accessor" do
+    @instance.should respond_to(:default_template)
+    @instance.should respond_to(:default_template=)
+  end
+
+  it "should have a nil default_template" do
+    @instance.default_template.should be_nil
+  end
+
+  it "should auto store the default template" do
+    node = mock_node "first"
+    @instance.default_template = node
+    @instance[node.source_path].should == node
+  end
+
   describe "with two nodes" do
     before(:each) do
       @first_node = mock_node "first"
@@ -65,8 +80,7 @@ describe NodeRepository do
 
     it "should be possible to store the same node twice" do
       lambda { @instance.store(@first_node) }.should_not raise_error
-    end
-
+    end 
     it "should be possible to unstore a node" do
       lambda { @instance.unstore(@first_node) }.should_not raise_error
       @instance[@first_node.source_path].should be_nil

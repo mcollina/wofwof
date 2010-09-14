@@ -5,6 +5,7 @@ module WofWof
 
     def initialize
       @hash = {}
+      @default_template = nil
     end
 
     alias :all :entries
@@ -23,6 +24,16 @@ module WofWof
 
     def unstore node
       @hash.delete(node.source_path)
+    end
+
+    def default_template=(template)
+      store(template)
+      @default_template = template.source_path
+      template
+    end
+
+    def default_template
+      self[@default_template]
     end
   end
 end
