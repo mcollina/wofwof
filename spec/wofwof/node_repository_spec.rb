@@ -62,6 +62,10 @@ describe NodeRepository do
     @instance[node.source_path].should == node
   end
 
+  it "should have a find_by_path! method" do
+    @instance.should respond_to(:find_by_path!)
+  end
+
   describe "with two nodes" do
     before(:each) do
       @first_node = mock_node "first"
@@ -80,7 +84,8 @@ describe NodeRepository do
 
     it "should be possible to store the same node twice" do
       lambda { @instance.store(@first_node) }.should_not raise_error
-    end 
+    end
+
     it "should be possible to unstore a node" do
       lambda { @instance.unstore(@first_node) }.should_not raise_error
       @instance[@first_node.source_path].should be_nil
@@ -92,6 +97,20 @@ describe NodeRepository do
       @instance.each { |e| ary << e }
       ary.should include(@first_node)
       ary.should include(@second_node)
+    end
+  
+    it "should have a find_by_path! method that searches for a node matching with the criteria" do
+      criteria = mock "SearchCriteria"
+      @first_node.source_path.should_receive(:=~).at_most(1).with(criteria).and_return(false)
+      @second_node.source_path.should_receive(:=~).with(criteria).and_return(true)
+      @instance.find_by_path!(criteria).should == @second_node
+    end
+
+    it "should have a find_by_path! method that raise a RuntimeError if no node was found" do
+      criteria = mock "SearchCriteria"
+      @first_node.source_path.should_receive(:=~).with(criteria).and_return(false)
+      @second_node.source_path.should_receive(:=~).with(criteria).and_return(false)
+      lambda { @instance.find_by_path!(criteria) }.should raise_error(RuntimeError)
     end
   end
 end
