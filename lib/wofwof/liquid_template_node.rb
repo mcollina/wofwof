@@ -11,8 +11,11 @@ module WofWof
     end
 
     def render(node, hash={})
+      new_hash = {}
+      hash.each_pair { |k,v| new_hash[k.to_s] = v }
+
       registers = { :current_node => node, :node_repository => @node_repository}
-      result = @liquid_template.render(hash, :registers => registers)
+      result = @liquid_template.render(new_hash, :registers => registers)
       @liquid_template.errors.each { |error| raise error }
       result
     end

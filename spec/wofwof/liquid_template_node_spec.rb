@@ -20,6 +20,11 @@ describe LiquidTemplateNode do
     instance.render(@node, "name" => "World").should == "Hello World"
   end
 
+  it "should render corretly the passed content even if the keyword is an Symbol" do
+    instance = build("Hello {{ name }}")
+    instance.render(@node, :name => "World").should == "Hello World"
+  end
+
   it "should have a route_to filter" do
     wrong_node = mock "Wrong Node"
     wrong_path = mock "Wrong path"
