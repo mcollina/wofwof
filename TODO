@@ -9,6 +9,7 @@ TODO to 0.1:
     NodeRepository, Path, PathHandler.
   * Add a Logging system.
   * Add a small DSL for configuration.
+  * Add an AllTemplateNodes shared spec.
 
 FUTURE:
   * Create a "plugins" module to include the optional classes.
@@ -16,3 +17,4 @@ FUTURE:
   * Add ability to include templates in templates.
   * Add i18n for templates.
   * Add i18n for node content (one node for every language).
+  * Extract most of the initialize method in PageNode to another class.
