@@ -12,4 +12,5 @@ module WofWof
   autoload :FileSystemPathHandler, "wofwof/file_system_path_handler"
   autoload :AssetsSource, "wofwof/assets_source"
   autoload :PageNode, "wofwof/page_node"
+  autoload :PageSource, "wofwof/page_source"
 end
