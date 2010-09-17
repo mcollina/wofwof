@@ -1,13 +1,18 @@
 
 TODO to 0.1:
+  * Add a default configuration store.
   * Split the AllPathHandler in two spec, one for glob e one for the rest.
   * Fix cucumber setup.
   * Add a simple feature for building an "hello world" static website.
   * Update liquid to latest dependency.
   * Add documentation for the main classes: Runtime, Source, Node, 
     NodeRepository, Path, PathHandler.
-  * Add a Logging system.
+  * Add a Logging system, add the some serious log to the 
+    already written classes.
   * Add a small DSL for configuration.
+  * Test it on multiple environments with rvm.
+  * Create a generator based on Thor.
+  * Create a command line utility to generate a new website.
 
 FUTURE:
   * Create a "plugins" module to include the optional classes.
@@ -15,5 +20,7 @@ FUTURE:
   * Add ability to include templates in templates.
   * Add i18n for templates.
   * Add i18n for node content (one node for every language).
-  * Extract most of the initialize method in PageNode to another class.
-  * Add the encapsulation of templates
+  * Extract most of the initialize method of PageNode to another class.
+  * Add the encapsulation of templates.
+  * Add the node filters.
+  * Add the documentation for the rest of the classes.
