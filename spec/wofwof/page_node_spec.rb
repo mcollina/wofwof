@@ -44,7 +44,55 @@ describe PageNode do
   it "should have the default content stored as the main key in the hash" do
     @instance.content[:main].should == @content
   end
+
+  it "should have a build method" do
+    @instance.should respond_to(:build)
+  end
+
+  it "should build correctly against the default template" do
+    result = mock "result"
+    template = mock "template"
+    template.should_receive(:render).with(@instance, { :main => "the content" }).and_return(result)
+    
+    @node_repository.should_receive(:default_template).and_return(template)
+
+    io = mock "io"
+    io.should_receive(:<<).with(result)
+
+    @instance.build(io)
+  end
  
+  it "should build correctly against the default template with the meta_info" do
+
+    @instance.meta_info[:author] = "me"
+
+    result = mock "result"
+    template = mock "template"
+    template.should_receive(:render).with(@instance, { :main => "the content", :author => "me" }).and_return(result)
+    
+    @node_repository.should_receive(:default_template).and_return(template)
+
+    io = mock "io"
+    io.should_receive(:<<).with(result)
+
+    @instance.build(io)
+  end
+
+  it "should build correctly against a custom template" do
+    @instance.meta_info[:template] = "the template"
+
+    result = mock "result"
+    template = mock "template"
+    template.should_receive(:render).with(@instance, { :main => "the content", :template => "the template" }).and_return(result)
+
+    @node_repository.should_receive(:find_by_path!).with("the template").and_return(template)
+
+    io = mock "io"
+    io.should_receive(:<<).with(result)
+
+    @instance.build(io)
+  end
+
   describe "with a YAML header" do
     before(:each) do
       @source_path = mock "SourcePath"

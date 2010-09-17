@@ -9,6 +9,7 @@ module WofWof
 
       self.dest_path = source_path
       
+      @node_repository = node_repository 
       @content = {}
 
       path_handler.open(source_path, "r") do |io|
@@ -45,6 +46,19 @@ module WofWof
         end 
       end
 
+    end
+
+    def build(io)
+      io << template.render(self, meta_info.dup.merge!(content))
+    end
+
+    private
+    def template
+      if meta_info[:template].nil?
+        @node_repository.default_template
+      else
+        @node_repository.find_by_path!(meta_info[:template])
+      end
     end
   end
 end
