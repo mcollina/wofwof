@@ -1,7 +1,6 @@
 
 TODO to 0.1:
   * Split the AllPathHandler in two spec, one for glob e one for the rest.
-  * Add a PageSource.
   * Fix cucumber setup.
   * Add a simple feature for building an "hello world" static website.
   * Update liquid to latest dependency.
@@ -18,3 +17,4 @@ FUTURE:
   * Add i18n for templates.
   * Add i18n for node content (one node for every language).
   * Extract most of the initialize method in PageNode to another class.
+  * Add the encapsulation of templates
