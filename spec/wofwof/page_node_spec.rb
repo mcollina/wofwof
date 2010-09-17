@@ -5,7 +5,7 @@ require 'stringio'
 
 describe PageNode do
 
-  it_should_behave_like AllNodes
+  it_should_behave_like AllStandardNodes
 
   before(:each) do
     @source_path = mock "SourcePath"

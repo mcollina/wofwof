@@ -112,9 +112,10 @@ describe LiquidTemplateNode do
   describe "as a generic node" do
 
     it_should_behave_like AllNodes
+    it_should_behave_like AllTemplateNodes
 
     before(:each) do
-      @instance = build("Hello {{ name }}")
+      @instance = build("Hello {{ main }}")
     end
   end
 end

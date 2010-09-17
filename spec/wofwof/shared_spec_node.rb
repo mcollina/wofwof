@@ -62,7 +62,7 @@ share_as :AllNodes do
 end
 
 share_as :AllStandardNodes do
-  it_should_behave_like :AllNodes
+  it_should_behave_like AllNodes
 
   it "should respond to build" do
     @instance.should respond_to(:build)
@@ -75,30 +75,24 @@ share_as :AllStandardNodes do
   it "should not be a template" do
     @instance.should_not be_template
   end
-
-  it "should build some content to the passed IO" do
-    io = StringIO.new
-    lambda { @instance.build(io) }.should_not raise_error
-    io.to_s.should_not == ""
-  end
 end
 
 share_as :AllTemplateNodes do
-  it_should_behave_like :AllNodes
+  it_should_behave_like AllNodes
 
   it "should respond to render" do
     @instance.should respond_to(:render)
   end
 
   it "should not be buildable" do
-    @instance.should be_buildable
+    @instance.should_not be_buildable
   end
 
   it "should be a template" do
     @instance.should be_template
   end
 
-  it "should build to an hash" do
-    @instance.build.should be_kind_of(Hash)
+  it "should render the content of the passed hash" do
+    @instance.render(@node, :main => "hello world" ).should =~ /hello world/
   end
 end
