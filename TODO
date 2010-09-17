@@ -1,7 +1,6 @@
 
 TODO to 0.1:
   * Add a default configuration store.
-  * Split the AllPathHandler in two spec, one for glob e one for the rest.
   * Fix cucumber setup.
   * Add a simple feature for building an "hello world" static website.
   * Update liquid to latest dependency.
