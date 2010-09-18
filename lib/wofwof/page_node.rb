@@ -1,3 +1,4 @@
+require 'yaml'
 
 module WofWof
   class PageNode < Node
