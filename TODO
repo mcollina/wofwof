@@ -7,7 +7,6 @@ TODO to 0.1:
   * Add a Logging system, add the some serious log to the 
     already written classes.
   * Add a small DSL for configuration.
-  * Test it on multiple environments with rvm.
   * Create a generator based on Thor.
   * Create a command line utility to generate a new website.
 
