@@ -13,7 +13,7 @@ begin
     gem.add_dependency "liquid", ">= 2.0.0"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "rcov", ">= 0.9.7.1"
-    gem.add_development_dependency "cucumber", ">= 0"
+    gem.add_development_dependency "cucumber", ">= 0.8.5"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

@@ -1,9 +1,7 @@
 
 TODO to 0.1:
   * Add a default configuration store.
-  * Fix cucumber setup.
   * Add a simple feature for building an "hello world" static website.
-  * Update liquid to latest dependency.
   * Add documentation for the main classes: Runtime, Source, Node, 
     NodeRepository, Path, PathHandler.
   * Add a Logging system, add the some serious log to the 

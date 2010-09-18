@@ -1,0 +1,15 @@
+# wofwof-old generated gem export file. Note that any env variable settings will be missing. Append these after using a ';' field separator
+builder -v2.1.2
+cucumber -v0.8.5
+diff-lcs -v1.1.2
+gemcutter -v0.6.1
+gherkin -v2.1.5
+git -v1.2.5
+jeweler -v1.4.0
+json_pure -v1.4.6
+liquid -v2.2.2
+rcov -v0.9.9
+rspec -v1.3.0
+rubyforge -v2.0.4
+term-ansicolor -v1.0.5
+trollop -v1.16.2
