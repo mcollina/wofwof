@@ -6,7 +6,7 @@ module WofWof
 	end
 
     def each(&block)
-      Dir.glob("**/*") do |current|
+      Dir.glob("#{base_path.full_path}/**/*") do |current|
 	    path = Path.new(base_path, current.gsub(/^#{base_path.full_path}/, ""), 
                         File.directory?(current))
         block.call(path)

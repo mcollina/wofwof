@@ -31,7 +31,7 @@ describe FileSystemPathHandler do
       end
     end
 
-    matcher = Dir.should_receive(:glob).with("**/*").any_number_of_times
+    matcher = Dir.should_receive(:glob).with("full_path//**/*").any_number_of_times
     (files + directories).each { |e| matcher.and_yield(e) }
   end
 
