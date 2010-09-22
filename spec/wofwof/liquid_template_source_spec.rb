@@ -29,12 +29,13 @@ describe LiquidTemplateSource do
     first_path_io.should_receive(:read).and_return(first_path_content)
     second_path_io.should_receive(:read).and_return(second_path_content)
 
-    LiquidTemplateNode.should_receive(:new).with(first_path, first_path_content).and_return(first_node)
-    LiquidTemplateNode.should_receive(:new).with(second_path, second_path_content).and_return(second_node)
-
     node_repository = mock "NodeRepository"
     node_repository.should_receive(:store).with(first_node)
     node_repository.should_receive(:store).with(second_node)
+
+    LiquidTemplateNode.should_receive(:new).with(node_repository, first_path, first_path_content).and_return(first_node)
+    LiquidTemplateNode.should_receive(:new).with(node_repository, second_path, second_path_content).and_return(second_node)
+
     @instance.build_nodes(node_repository)
   end
 end
