@@ -20,3 +20,11 @@ Feature: User creates a basic website
     And that the index.html file contains the text in basic_website/pages/index.page
     And everyone should see that there is an other.html file
     And that the other.html file contains the text in basic_website/other/other.page
+
+  Scenario: build a page using the markdown syntax
+    Given a new project 
+    And the liquid template folder basic_website/templates/
+    And the pages folder basic_website/markdown
+    When I render the website
+    Then everyone should see that there is an index.html file
+    And that the index.html file contains the markdown representation of basic_website/markdown/index.page

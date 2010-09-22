@@ -1,10 +1,11 @@
 require 'tmpdir'
+require 'fileutils'
 
 Given /a new project/ do
   @website_dest = Dir.mktmpdir("wofwof") # TODO add the scenario name in the feature?
   @runtime = WofWof::Runtime.new
   @runtime.dest_path_handler = WofWof::FileSystemPathHandler.new(WofWof::Path.new(@website_dest, ""))
-  #Kernel.at_exit { Dir.rmdir @website_dest } # TODO add a way to skip deletion
+  Kernel.at_exit { FileUtils.rm_rf @website_dest } # TODO add a way to skip deletion
 end
 
 Given /^the liquid template folder (.*)$/ do |path|
@@ -31,4 +32,8 @@ Then /^that the (.*) file contains the text in (.*)$/ do |destination, source|
       dest_io.read.should =~ /#{source_io.read}/
     end
   end
+end
+
+Then /^that the (.*) file contains the markdown representation of (.*)$/ do |destionation, source|
+  pending # express the regexp above with the code you wish you had
 end
