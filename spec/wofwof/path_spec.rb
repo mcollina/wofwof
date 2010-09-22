@@ -209,6 +209,48 @@ describe Path, "with basic parameters" do
     other = Path.new("another_base_path", "other")
     @instance.route_to(other).should == other.local_path
   end
+
+  it "should have an ext attribute" do
+    @instance.should respond_to(:ext)
+  end
+
+  it "should have an empty ext if the path has no extension" do
+    @instance.ext.should == ""
+  end
+  
+  it "should have an change_ext attribute" do
+    @instance.should respond_to(:change_ext)
+  end
+  
+  it "should have a change_ext method that emits a new path" do
+    @local_path = "local.ext"
+    @instance = Path.new(@base_path, @local_path)
+    new_path = @instance.change_ext("pua")
+    new_path.should_not == @instance
+    new_path.ext.should == "pua"
+    new_path.local_path.should == "local.pua"
+    new_path.base_path.should == @base_path
+  end
+
+  it "shoud have a change_ext method that adds the ext if it's missing" do
+    @local_path = "local"
+    @instance = Path.new(@base_path, @local_path)
+    new_path = @instance.change_ext("pua")
+    new_path.should_not == @instance
+    new_path.ext.should == "pua"
+    new_path.local_path.should == "local.pua"
+    new_path.base_path.should == @base_path
+  end
+
+  it "should have a change_ext method that emits a new path and can work with directories" do
+    @local_path = "dir/local.ext"
+    @instance = Path.new(@base_path, @local_path)
+    new_path = @instance.change_ext("pua")
+    new_path.should_not == @instance
+    new_path.ext.should == "pua"
+    new_path.local_path.should == "dir/local.pua"
+    new_path.base_path.should == @base_path
+  end
 end
 
 describe Path, "with a Path as constructor argument" do

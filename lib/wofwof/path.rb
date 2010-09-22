@@ -82,5 +82,24 @@ module WofWof
 
       dest.join("/")
     end
+
+    def change_ext(new_ext)
+      if ext == "" 
+        regexp = /$/  
+      else
+        regexp = /.([a-zA-Z0-9]+)$/  
+      end
+      new_local_path = @local_path.gsub(regexp,".#{new_ext}")
+      Path.new(@base_path, new_local_path)
+    end
+
+    def ext
+      matcher = /\.([a-zA-Z0-9]+)$/.match(@local_path)
+      unless matcher.nil? 
+        matcher.captures.first
+      else
+        ""
+      end
+    end 
   end
 end

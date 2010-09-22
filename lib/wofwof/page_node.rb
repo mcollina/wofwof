@@ -8,7 +8,7 @@ module WofWof
     def initialize(node_repository, source_path, path_handler)
       super(source_path)
 
-      self.dest_path = source_path
+      self.dest_path = source_path.change_ext("html")
       
       @node_repository = node_repository 
       @content = {}

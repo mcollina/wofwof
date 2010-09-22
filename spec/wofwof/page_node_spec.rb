@@ -9,6 +9,8 @@ describe PageNode do
 
   before(:each) do
     @source_path = mock "SourcePath"
+    @dest_path = mock "DestPath"
+    @source_path.should_receive(:change_ext).with("html").and_return(@dest_path)
     @path_handler = mock "PathHandler"
     @node_repository = mock "NodeRepository"
     @content = "the content"
@@ -29,8 +31,8 @@ describe PageNode do
     @instance.dest_path.should_not be_nil
   end
 
-  it "should have equal source and dest path" do
-    @instance.dest_path.should == @instance.source_path
+  it "should have the a dest path which is the source path but with the html extension" do
+    @instance.dest_path.should == @dest_path
   end
 
   it "should have a content attribute reader" do
@@ -96,6 +98,8 @@ describe PageNode do
   describe "with a YAML header" do
     before(:each) do
       @source_path = mock "SourcePath"
+      @dest_path = mock "DestPath"
+      @source_path.should_receive(:change_ext).with("html").and_return(@dest_path)
       @path_handler = mock "PathHandler"
       @node_repository = mock "NodeRepository"
       @content = <<-CONTENT 
@@ -121,6 +125,8 @@ CONTENT
   describe "with a YAML header and two main parts" do
     before(:each) do
       @source_path = mock "SourcePath"
+      @dest_path = mock "DestPath"
+      @source_path.should_receive(:change_ext).with("html").and_return(@dest_path)
       @path_handler = mock "PathHandler"
       @node_repository = mock "NodeRepository"
       @content = <<-CONTENT 
@@ -152,6 +158,8 @@ CONTENT
   describe "with two main parts" do
     before(:each) do
       @source_path = mock "SourcePath"
+      @dest_path = mock "DestPath"
+      @source_path.should_receive(:change_ext).with("html").and_return(@dest_path)
       @path_handler = mock "PathHandler"
       @node_repository = mock "NodeRepository"
       @content = <<-CONTENT 
