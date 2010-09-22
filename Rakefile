@@ -11,6 +11,7 @@ begin
     gem.homepage = "http://github.com/mcollina/wofwof"
     gem.authors = ["Matteo Collina"]
     gem.add_dependency "liquid", ">= 2.0.0"
+    gem.add_dependency "kramdown", ">= 0.10.0"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "rcov", ">= 0.9.7.1"
     gem.add_development_dependency "cucumber", ">= 0.8.5"
