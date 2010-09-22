@@ -33,7 +33,19 @@ module WofWof
     end
 
     def default_template
-      self[@default_template]
+      return self[@default_template] unless @default_template.nil?
+      
+      templates = self.select { |node| node.template? }
+      if templates.size == 0
+        raise "No template found!"
+      elsif templates.size > 1
+        # TODO replace XYZ with actual istructions.
+        raise "There is more than one template found, do XYZ to specify the default one." 
+      else 
+        @default_template = templates.first.source_path
+      end
+
+      templates.first
     end
 
     def find_by_path!(search_criteria)
