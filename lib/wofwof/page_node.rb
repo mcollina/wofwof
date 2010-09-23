@@ -1,4 +1,5 @@
 require 'yaml'
+require 'kramdown'
 
 module WofWof
   class PageNode < Node
@@ -19,7 +20,9 @@ module WofWof
     end
 
     def build(io)
-      io << template.render(self, meta_info.dup.merge!(content))
+      content_html = {}
+      content.each { |key, value| content_html[key] = Kramdown::Document.new(value, :auto_ids => false).to_html }
+      io << template.render(self, meta_info.dup.merge!(content_html))
     end
 
     def self.parse(io)        

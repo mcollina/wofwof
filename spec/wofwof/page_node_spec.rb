@@ -10,7 +10,7 @@ describe PageNode do
   before(:each) do
     @source_path = mock "SourcePath"
     @dest_path = mock "DestPath"
-    @source_path.should_receive(:change_ext).with("html").and_return(@dest_path)
+    @source_path.should_receive(:change_ext).at_least(1).with("html").and_return(@dest_path)
     @path_handler = mock "PathHandler"
     @node_repository = mock "NodeRepository"
     @content = "the content"
@@ -54,7 +54,7 @@ describe PageNode do
   it "should build correctly against the default template" do
     result = mock "result"
     template = mock "template"
-    template.should_receive(:render).with(@instance, { :main => "the content" }).and_return(result)
+    template.should_receive(:render).with(@instance, { :main => "<p>the content</p>\n" }).and_return(result)
     
     @node_repository.should_receive(:default_template).and_return(template)
 
@@ -70,7 +70,7 @@ describe PageNode do
 
     result = mock "result"
     template = mock "template"
-    template.should_receive(:render).with(@instance, { :main => "the content", :author => "me" }).and_return(result)
+    template.should_receive(:render).with(@instance, { :main => "<p>the content</p>\n", :author => "me" }).and_return(result)
     
     @node_repository.should_receive(:default_template).and_return(template)
 
@@ -85,11 +85,27 @@ describe PageNode do
 
     result = mock "result"
     template = mock "template"
-    template.should_receive(:render).with(@instance, { :main => "the content", :template => "the template" }).and_return(result)
+    template.should_receive(:render).with(@instance, { :main => "<p>the content</p>\n", :template => "the template" }).and_return(result)
 
     @node_repository.should_receive(:find_by_path!).with("the template").and_return(template)
 
     io = mock "io"
+    io.should_receive(:<<).with(result)
+
+    @instance.build(io)
+  end
+
+  it "should render correctly a YAML text" do
+    @content = "# the content\n"
+    @path_handler.should_receive(:open).with(@source_path, "r").and_yield(StringIO.new(@content))
+    @instance = PageNode.new(@node_repository, @source_path, @path_handler)
+
+    result = mock "result"
+    template = mock "template"
+    template.should_receive(:render).with(@instance, { :main => "<h1>the content</h1>\n" }).and_return(result)
+    
+    @node_repository.should_receive(:default_template).and_return(template)
+    io = mock "io" 
     io.should_receive(:<<).with(result)
 
     @instance.build(io)
