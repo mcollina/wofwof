@@ -2,12 +2,12 @@
 module WofWof
   class Runtime
     
-    attr_reader :nodes
-    attr_reader :sources
+    attr_reader :nodes, :configuration, :sources
     attr_accessor :dest_path_handler
       
     def initialize
-      @nodes = NodeRepository.new
+      @configuration = ConfigurationStore.new
+      @nodes = NodeRepository.new(@configuration)
       @sources = []
     end
 

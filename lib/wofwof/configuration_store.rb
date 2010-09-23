@@ -2,13 +2,9 @@
 module WofWof
   class ConfigurationStore
 
-    attr_reader :node_repository
-
-    def initialize(node_repository)
-      @node_repository = node_repository
+    def initialize
       @store = { :default_template => nil }
     end
-
 
     def respond_to?(method)
       if @store.has_key? method.to_sym or @store.has_key? method.to_s.gsub(/[=\?]$/, "").to_sym

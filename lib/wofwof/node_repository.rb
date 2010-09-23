@@ -5,10 +5,10 @@ module WofWof
 
     attr_reader :configuration
 
-    def initialize
+    def initialize(configuration)
       @hash = {}
       @default_template = nil
-      @configuration = ConfigurationStore.new(self)
+      @configuration = configuration 
     end
 
     alias :all :entries

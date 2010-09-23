@@ -3,18 +3,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 describe ConfigurationStore do
   
   before(:each) do
-    @node_repository = mock "NodeRepository"
-    @instance = ConfigurationStore.new(@node_repository)
+    @instance = ConfigurationStore.new
   end
 
-  it "should have a node_repository attribute reader" do
-    @instance.should respond_to(:node_repository)
-  end
-
-  it "should have it node_repository initialized to the value passed to the constructor" do
-    @instance.node_repository.should == @node_repository
-  end
-  
   it "should have a default_template accessor" do
     @instance.should respond_to(:default_template)
     @instance.should respond_to(:default_template=)

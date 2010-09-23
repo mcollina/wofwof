@@ -2,6 +2,10 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
 describe Runtime do
   before(:each) do
+    @configuration = mock "Configuration"
+    ConfigurationStore.should_receive(:new).and_return(@configuration)
+    @node_repository = mock "NodeRepository"
+    NodeRepository.should_receive(:new).with(@configuration).and_return(@node_repository)
     @instance = Runtime.new
   end
 
@@ -36,24 +40,23 @@ describe Runtime do
     @instance.should respond_to(:nodes)
   end
 
-  it "should have a nodes method that returns an empty NodeRepository" do
-    @instance.nodes.should be_kind_of(NodeRepository)
-    count = 0
-    @instance.nodes.each { |n| count += 1 }
-    count.should == 0
+  it "should have a nodes method that returns a NodeRepository" do
+    @instance.nodes.should == @node_repository 
   end
 
   it "should sort and call build_nodes to all sources when calling render" do
     first_source = mock "First Source"
-    first_source.should_receive(:build_nodes).with(@instance.nodes)
+    first_source.should_receive(:build_nodes).with(@node_repository)
     second_source = mock "First Source"
-    second_source.should_receive(:build_nodes).with(@instance.nodes)
+    second_source.should_receive(:build_nodes).with(@node_repository)
 
     first_source.should_receive(:<=>).with(second_source).any_number_of_times.and_return(-1)
     second_source.should_receive(:<=>).with(first_source).any_number_of_times.and_return(1)
 
     @instance.sources << first_source
     @instance.sources << second_source
+
+    @node_repository.should_receive(:each)
 
     @instance.render
   end
@@ -104,6 +107,14 @@ describe Runtime do
     @instance.sources << source
 
     @instance.render
+  end
+
+  it "should have a configuration attribute reader" do
+    @instance.should respond_to(:configuration)
+  end
+
+  it "should have a configuration that is a ConfigurationStore object" do
+    @instance.configuration.should == @configuration
   end
 end
 

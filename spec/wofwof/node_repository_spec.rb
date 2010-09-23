@@ -4,8 +4,7 @@ describe NodeRepository do
 
   before(:each) do
     @configuration = mock "Configuration"
-    ConfigurationStore.should_receive(:new).at_most(1).and_return(@configuration)
-    @instance = NodeRepository.new
+    @instance = NodeRepository.new(@configuration)
   end
 
   it "should respond to all" do
