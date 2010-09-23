@@ -64,20 +64,25 @@ module WofWof
     end
 
     def self.default_template(node_repository)
-      default_template = node_repository.configuration.default_template
-      return node_repository.find_by_path!(default_template) unless default_template.nil?
-      
-      templates = node_repository.select { |node| node.template? }
-      if templates.size == 0
-        raise "No template found!"
-      elsif templates.size > 1
-        # TODO replace XYZ with actual istructions.
-        raise "There is more than one template found, do XYZ to specify the default one." 
-      else 
-        default_template = templates.first.source_path
-      end
+      configuration = node_repository.configuration
+      return configuration.default_template_node unless configuration.default_template_node.nil? 
 
-      templates.first
+      default_template = configuration.default_template
+      unless default_template.nil?
+        configuration.default_template_node = node_repository.find_by_path!(default_template)
+      else   
+        templates = node_repository.select { |node| node.template? }
+        if templates.size == 0
+          raise "No template found!"
+        elsif templates.size > 1
+          # TODO replace XYZ with actual istructions.
+          raise "There is more than one template found, do XYZ to specify the default one." 
+        else 
+          default_template = templates.first.source_path
+        end
+
+        configuration.default_template_node = templates.first
+      end
     end
 
     private
