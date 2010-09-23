@@ -10,6 +10,7 @@ module WofWof
     end
 
     def default_template=(template)
+      template = @node_repository.find_by_path!(template) if template.respond_to? :to_str
       node_repository.store(template)
       @default_template = template.source_path
       template

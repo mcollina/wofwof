@@ -42,10 +42,18 @@ describe ConfigurationStore do
     lambda { @instance.default_template }.should raise_error(RuntimeError) 
   end
   
-  it "should auto store the default template" do
+  it "should auto store the default template when writing it" do
     node = mock_node "first"
     @node_repository.should_receive(:store).with(node)
     @instance.default_template = node
+  end
+
+  it "should search for the default template when it is specified as a string" do
+    pattern = "the/pattern"
+    node = mock_node "first"
+    @node_repository.should_receive(:find_by_path!).with(pattern).and_return(node)
+    @node_repository.should_receive(:store).at_most(1).with(node)
+    @instance.default_template = pattern 
   end
 
   it "should be able to contain elements that weren't specified" do
