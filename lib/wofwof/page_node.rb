@@ -63,10 +63,27 @@ module WofWof
       [content_hash, meta_info] 
     end
 
+    def self.default_template(node_repository)
+      default_template = node_repository.configuration.default_template
+      return node_repository.find_by_path!(default_template) unless default_template.nil?
+      
+      templates = node_repository.select { |node| node.template? }
+      if templates.size == 0
+        raise "No template found!"
+      elsif templates.size > 1
+        # TODO replace XYZ with actual istructions.
+        raise "There is more than one template found, do XYZ to specify the default one." 
+      else 
+        default_template = templates.first.source_path
+      end
+
+      templates.first
+    end
+
     private
     def template
       if meta_info[:template].nil?
-        @node_repository.configuration.default_template
+        PageNode.default_template(@node_repository)
       else
         @node_repository.find_by_path!(meta_info[:template])
       end

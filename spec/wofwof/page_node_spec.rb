@@ -56,9 +56,7 @@ describe PageNode do
     template = mock "template"
     template.should_receive(:render).with(@instance, { :main => "<p>the content</p>\n" }).and_return(result)
    
-    configuration = mock "Configuration" 
-    @node_repository.should_receive(:configuration).and_return(configuration)
-    configuration.should_receive(:default_template).and_return(template)
+    PageNode.should_receive(:default_template).with(@node_repository).and_return(template)
 
     io = mock "io"
     io.should_receive(:<<).with(result)
@@ -74,9 +72,7 @@ describe PageNode do
     template = mock "template"
     template.should_receive(:render).with(@instance, { :main => "<p>the content</p>\n", :author => "me" }).and_return(result)
     
-    configuration = mock "Configuration" 
-    @node_repository.should_receive(:configuration).and_return(configuration)
-    configuration.should_receive(:default_template).and_return(template)
+    PageNode.should_receive(:default_template).with(@node_repository).and_return(template)
 
     io = mock "io"
     io.should_receive(:<<).with(result)
@@ -99,7 +95,7 @@ describe PageNode do
     @instance.build(io)
   end
 
-  it "should render correctly a YAML text" do
+  it "should render correctly a Markdown text" do
     @content = "# the content\n"
     @path_handler.should_receive(:open).with(@source_path, "r").and_yield(StringIO.new(@content))
     @instance = PageNode.new(@node_repository, @source_path, @path_handler)
@@ -108,10 +104,7 @@ describe PageNode do
     template = mock "template"
     template.should_receive(:render).with(@instance, { :main => "<h1>the content</h1>\n" }).and_return(result)
     
-
-    configuration = mock "Configuration" 
-    @node_repository.should_receive(:configuration).and_return(configuration)
-    configuration.should_receive(:default_template).and_return(template)
+    PageNode.should_receive(:default_template).with(@node_repository).and_return(template)
 
     io = mock "io" 
     io.should_receive(:<<).with(result)
@@ -203,4 +196,47 @@ CONTENT
       @instance.content[:summary].should == "the summary\n"
     end
   end 
+end
+
+describe PageNode, "#class" do
+  before(:each) do
+    @node_repository = mock "NodeRepository"
+    @configuration = mock "Configuration"
+    @node_repository.should_receive(:configuration).and_return(@configuration)
+    @instance = PageNode
+  end
+
+  it "should raise a RuntimeError if there are no templates in the repository" do
+    @configuration.should_receive(:default_template).and_return(nil)
+    @node_repository.should_receive(:select).and_return([])
+    lambda { @instance.default_template(@node_repository) }.should raise_error(RuntimeError) 
+  end
+
+  it "should search for a single template if there is no default template" do
+    @configuration.should_receive(:default_template).and_return(nil)
+    @single_template = mock_node "first"
+    @node_repository.should_receive(:select).and_yield(@single_template).and_return([@single_template])
+    @single_template.should_receive(:template?).and_return(true)
+    @instance.default_template(@node_repository).should == @single_template
+  end
+
+  it "should search for a single template and raise RuntimeError if there is " + "
+      more than once template in the system and no default template ." do
+    @configuration.should_receive(:default_template).and_return(nil)
+    @first_template = mock "first"
+    @second_template = mock "second"
+    @node_repository.should_receive(:select).and_yield(@first_template).and_yield(@second_template).
+      and_return([@first_template, @second_template])
+    @first_template.should_receive(:template?).and_return(true)
+    @second_template.should_receive(:template?).and_return(true)
+    lambda { @instance.default_template(@node_repository) }.should raise_error(RuntimeError) 
+  end
+  
+  it "should search for the default template when it is specified as a string" do
+    pattern = "the/pattern"
+    @configuration.should_receive(:default_template).and_return(pattern)
+    node = mock "first"
+    @node_repository.should_receive(:find_by_path!).with(pattern).and_return(node)
+    @instance.default_template(@node_repository).should == node 
+  end
 end

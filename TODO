@@ -18,3 +18,4 @@ FUTURE:
   * Add the encapsulation of templates.
   * Add the node filters.
   * Add the documentation for the rest of the classes.
+  * Move PageNode.parse and PageNode.default_template to another location.
