@@ -1,16 +1,10 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
-def mock_node(key=nil)
-  key = " " + key unless key.nil?
-  path = mock "Path#{key}"
-  node = mock "Node#{key}"
-  node.should_receive(:source_path).at_least(1).and_return(path)
-  node
-end
-
 describe NodeRepository do
 
   before(:each) do
+    @configuration = mock "Configuration"
+    ConfigurationStore.should_receive(:new).at_most(1).and_return(@configuration)
     @instance = NodeRepository.new
   end
 
@@ -47,40 +41,16 @@ describe NodeRepository do
     @instance.class.ancestors.should include(Enumerable)
   end
 
-  it "should have a default_template accessor" do
-    @instance.should respond_to(:default_template)
-    @instance.should respond_to(:default_template=)
-  end
-
-  it "should raise a RuntimeError if there is no default_template" do
-    lambda { @instance.default_template }.should raise_error(RuntimeError) 
-  end
-
-  it "should search for a single template if there is no default template" do
-    @single_template = mock_node "first"
-    @instance.store(@single_template)
-    @single_template.should_receive(:template?).and_return(true)
-    @instance.default_template.should == @single_template
-  end
-
-  it "should search for a single template and raise RuntimeError if there is more than once." do
-    @first_template = mock_node "first"
-    @second_template = mock_node "second"
-    @instance.store(@first_template)
-    @instance.store(@second_template)
-    @first_template.should_receive(:template?).and_return(true)
-    @second_template.should_receive(:template?).and_return(true)
-    lambda { @instance.default_template }.should raise_error(RuntimeError) 
-  end
-  
-  it "should auto store the default template" do
-    node = mock_node "first"
-    @instance.default_template = node
-    @instance[node.source_path].should == node
-  end
-
   it "should have a find_by_path! method" do
     @instance.should respond_to(:find_by_path!)
+  end
+
+  it "should have a configuration attribute reader" do
+    @instance.should respond_to(:configuration)
+  end
+
+  it "should have as the configuration the created ConfigurationStore object" do
+    @instance.configuration.should == @configuration
   end
 
   describe "with two nodes" do

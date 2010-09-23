@@ -10,3 +10,12 @@ include WofWof
 Spec::Runner.configure do |config|
   
 end
+
+def mock_node(key=nil)
+  key = " " + key unless key.nil?
+  path = mock "Path#{key}"
+  node = mock "Node#{key}"
+  node.should_receive(:source_path).at_least(1).and_return(path)
+  node
+end
+

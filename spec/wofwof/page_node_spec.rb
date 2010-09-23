@@ -55,8 +55,10 @@ describe PageNode do
     result = mock "result"
     template = mock "template"
     template.should_receive(:render).with(@instance, { :main => "<p>the content</p>\n" }).and_return(result)
-    
-    @node_repository.should_receive(:default_template).and_return(template)
+   
+    configuration = mock "Configuration" 
+    @node_repository.should_receive(:configuration).and_return(configuration)
+    configuration.should_receive(:default_template).and_return(template)
 
     io = mock "io"
     io.should_receive(:<<).with(result)
@@ -72,7 +74,9 @@ describe PageNode do
     template = mock "template"
     template.should_receive(:render).with(@instance, { :main => "<p>the content</p>\n", :author => "me" }).and_return(result)
     
-    @node_repository.should_receive(:default_template).and_return(template)
+    configuration = mock "Configuration" 
+    @node_repository.should_receive(:configuration).and_return(configuration)
+    configuration.should_receive(:default_template).and_return(template)
 
     io = mock "io"
     io.should_receive(:<<).with(result)
@@ -104,7 +108,11 @@ describe PageNode do
     template = mock "template"
     template.should_receive(:render).with(@instance, { :main => "<h1>the content</h1>\n" }).and_return(result)
     
-    @node_repository.should_receive(:default_template).and_return(template)
+
+    configuration = mock "Configuration" 
+    @node_repository.should_receive(:configuration).and_return(configuration)
+    configuration.should_receive(:default_template).and_return(template)
+
     io = mock "io" 
     io.should_receive(:<<).with(result)
 

@@ -1,6 +1,5 @@
 
 TODO to 0.1:
-  * Add a default configuration store.
   * Add documentation for the main classes: Runtime, Source, Node, 
     NodeRepository, Path, PathHandler.
   * Add a Logging system, add the some serious log to the 

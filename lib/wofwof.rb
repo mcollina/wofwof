@@ -3,6 +3,7 @@ module WofWof
   autoload :Path, "wofwof/path"
   autoload :Node, "wofwof/node"
   autoload :NodeRepository, "wofwof/node_repository"
+  autoload :ConfigurationStore, "wofwof/configuration_store"
   autoload :PathHandler, "wofwof/path_handler"
   autoload :Source, "wofwof/source"
   autoload :Runtime, "wofwof/runtime"

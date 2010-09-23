@@ -66,7 +66,7 @@ module WofWof
     private
     def template
       if meta_info[:template].nil?
-        @node_repository.default_template
+        @node_repository.configuration.default_template
       else
         @node_repository.find_by_path!(meta_info[:template])
       end
