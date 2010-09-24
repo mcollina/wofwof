@@ -1,5 +1,7 @@
 
 TODO to 0.1:
+  * Add a cucumber scenario for the assets copying.
+  * Add a cucumber scenario for the links handling.
   * Add documentation for the main classes: Runtime, Source, Node, 
     NodeRepository, Path, PathHandler.
   * Add a Logging system, add the some serious log to the 
@@ -19,3 +21,5 @@ FUTURE:
   * Add the node filters.
   * Add the documentation for the rest of the classes.
   * Move PageNode.parse and PageNode.default_template to another location.
+  * Add exception handling, so that rendering a node makes everything
+    stop gracefully.

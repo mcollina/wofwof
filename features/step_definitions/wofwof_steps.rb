@@ -50,3 +50,11 @@ Then /^that the (.*) file contains the markdown representation of (.*)$/ do |des
     end
   end
 end
+
+Given /^the logging is configured to level (.*)$/ do |level|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^it should log "([^"]*)"$/ do |message|
+  pending # express the regexp above with the code you wish you had
+end
