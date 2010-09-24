@@ -13,6 +13,14 @@ describe Runtime do
     @instance.should respond_to(:sources)
   end
 
+  it "should respond to context" do
+    @instance.should respond_to(:context)
+  end
+
+  it "should have a context of class Context" do
+    @instance.context.should == @context
+  end
+
   it "should have a source method that returns an empty array" do
     @instance.sources.should == []
   end
@@ -36,14 +44,6 @@ describe Runtime do
     @instance.dest_path_handler.should == dest_path_handler
   end
   
-  it "should respond to nodes" do
-    @instance.should respond_to(:nodes)
-  end
-
-  it "should have a nodes method that returns a NodeRepository" do
-    @instance.nodes.should == @node_repository 
-  end
-
   it "should sort and call build_nodes to all sources when calling render" do
     first_source = mock "First Source"
     first_source.should_receive(:build_nodes).with(@context)
@@ -78,7 +78,7 @@ describe Runtime do
 
     source = mock "First Source"
     source.should_receive(:build_nodes).with(@context)
-    @instance.nodes.should_receive(:each).and_yield(node)
+    @node_repository.should_receive(:each).and_yield(node)
 
     path_handler = mock "PathHandler"
     path_handler.should_receive(:base_path).and_return(base_path)
@@ -98,7 +98,7 @@ describe Runtime do
 
     source = mock "First Source"
     source.should_receive(:build_nodes).with(@context)
-    @instance.nodes.should_receive(:each).and_yield(node)
+    @node_repository.should_receive(:each).and_yield(node)
 
     path_handler = mock "PathHandler" # this mock should receive no messages
 
