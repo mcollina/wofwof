@@ -3,12 +3,9 @@ module WofWof
 
     include Enumerable
 
-    attr_reader :configuration
-
-    def initialize(configuration)
+    def initialize()
       @hash = {}
       @default_template = nil
-      @configuration = configuration 
     end
 
     alias :all :entries

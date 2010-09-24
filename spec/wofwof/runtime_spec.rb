@@ -2,10 +2,10 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
 describe Runtime do
   before(:each) do
-    @configuration = mock "Configuration"
-    ConfigurationStore.should_receive(:new).and_return(@configuration)
+    @context = mock "Context"
     @node_repository = mock "NodeRepository"
-    NodeRepository.should_receive(:new).with(@configuration).and_return(@node_repository)
+    Context.should_receive(:new).and_return(@context)
+    @context.should_receive(:nodes).any_number_of_times.and_return(@node_repository) 
     @instance = Runtime.new
   end
 
@@ -46,9 +46,9 @@ describe Runtime do
 
   it "should sort and call build_nodes to all sources when calling render" do
     first_source = mock "First Source"
-    first_source.should_receive(:build_nodes).with(@node_repository)
+    first_source.should_receive(:build_nodes).with(@context)
     second_source = mock "First Source"
-    second_source.should_receive(:build_nodes).with(@node_repository)
+    second_source.should_receive(:build_nodes).with(@context)
 
     first_source.should_receive(:<=>).with(second_source).any_number_of_times.and_return(-1)
     second_source.should_receive(:<=>).with(first_source).any_number_of_times.and_return(1)
@@ -77,7 +77,7 @@ describe Runtime do
     node.should_receive(:dest_path).and_return(dest_path)
 
     source = mock "First Source"
-    source.should_receive(:build_nodes).with(@instance.nodes)
+    source.should_receive(:build_nodes).with(@context)
     @instance.nodes.should_receive(:each).and_yield(node)
 
     path_handler = mock "PathHandler"
@@ -97,7 +97,7 @@ describe Runtime do
     node.should_receive(:buildable?).and_return(false)
 
     source = mock "First Source"
-    source.should_receive(:build_nodes).with(@instance.nodes)
+    source.should_receive(:build_nodes).with(@context)
     @instance.nodes.should_receive(:each).and_yield(node)
 
     path_handler = mock "PathHandler" # this mock should receive no messages
@@ -107,14 +107,6 @@ describe Runtime do
     @instance.sources << source
 
     @instance.render
-  end
-
-  it "should have a configuration attribute reader" do
-    @instance.should respond_to(:configuration)
-  end
-
-  it "should have a configuration that is a ConfigurationStore object" do
-    @instance.configuration.should == @configuration
   end
 end
 

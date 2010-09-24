@@ -3,8 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 describe NodeRepository do
 
   before(:each) do
-    @configuration = mock "Configuration"
-    @instance = NodeRepository.new(@configuration)
+    @instance = NodeRepository.new
   end
 
   it "should respond to all" do
@@ -42,14 +41,6 @@ describe NodeRepository do
 
   it "should have a find_by_path! method" do
     @instance.should respond_to(:find_by_path!)
-  end
-
-  it "should have a configuration attribute reader" do
-    @instance.should respond_to(:configuration)
-  end
-
-  it "should have as the configuration the created ConfigurationStore object" do
-    @instance.configuration.should == @configuration
   end
 
   describe "with two nodes" do

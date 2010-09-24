@@ -2,17 +2,20 @@
 module WofWof
   class Runtime
     
-    attr_reader :nodes, :configuration, :sources
+    attr_reader :sources
     attr_accessor :dest_path_handler
       
     def initialize
-      @configuration = ConfigurationStore.new
-      @nodes = NodeRepository.new(@configuration)
+      @context = Context.new
       @sources = []
     end
 
+    def nodes
+      @context.nodes
+    end
+
     def render
-      @sources.sort.each { |source| source.build_nodes(@nodes) }
+      @sources.sort.each { |source| source.build_nodes(@context) }
       nodes.each do |node|
         next unless node.buildable?
         rebased_dest_path = node.dest_path.rebase(dest_path_handler.base_path)

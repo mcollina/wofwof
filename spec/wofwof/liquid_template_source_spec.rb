@@ -33,10 +33,13 @@ describe LiquidTemplateSource do
     node_repository.should_receive(:store).with(first_node)
     node_repository.should_receive(:store).with(second_node)
 
+    context = mock "Context"
+    context.should_receive(:nodes).at_least(1).and_return(node_repository)
+
     LiquidTemplateNode.should_receive(:new).with(node_repository, first_path, first_path_content).and_return(first_node)
     LiquidTemplateNode.should_receive(:new).with(node_repository, second_path, second_path_content).and_return(second_node)
 
-    @instance.build_nodes(node_repository)
+    @instance.build_nodes(context)
   end
 end
 

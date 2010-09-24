@@ -16,18 +16,21 @@ describe PageSource do
     second_path = mock "Second.page"
     @path_handler.should_receive(:each).and_yield(first_path).and_yield(second_path)
     
-    node_repository = mock "NodeRepository"
+    context = mock "Context"
    
     first_node = mock "FirstNode"
-    PageNode.should_receive(:new).with(node_repository, first_path, @path_handler).and_return(first_node)
+    PageNode.should_receive(:new).with(context, first_path, @path_handler).and_return(first_node)
 
     second_node = mock "SecondNode"
-    PageNode.should_receive(:new).with(node_repository, second_path, @path_handler).and_return(second_node)
+    PageNode.should_receive(:new).with(context, second_path, @path_handler).and_return(second_node)
 
+    node_repository = mock "NodeRepository"
     node_repository.should_receive(:store).with(first_node)
     node_repository.should_receive(:store).with(second_node)
+
+    context.should_receive(:nodes).any_number_of_times.and_return(node_repository)
     
-    @instance.build_nodes(node_repository)
+    @instance.build_nodes(context)
   end
 end
 

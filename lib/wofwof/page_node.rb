@@ -6,12 +6,12 @@ module WofWof
 
     attr_reader :content
 
-    def initialize(node_repository, source_path, path_handler)
+    def initialize(context, source_path, path_handler)
       super(source_path)
 
       self.dest_path = source_path.change_ext("html")
       
-      @node_repository = node_repository 
+      @context = context 
       
       path_handler.open(source_path, "r") do |io|
         @content, meta_info = PageNode.parse(io)
@@ -63,15 +63,15 @@ module WofWof
       [content_hash, meta_info] 
     end
 
-    def self.default_template(node_repository)
-      configuration = node_repository.configuration
+    def self.default_template(context)
+      configuration = context.configuration
       return configuration.default_template_node unless configuration.default_template_node.nil? 
 
       default_template = configuration.default_template
       unless default_template.nil?
-        configuration.default_template_node = node_repository.find_by_path!(default_template)
+        configuration.default_template_node = context.nodes.find_by_path!(default_template)
       else   
-        templates = node_repository.select { |node| node.template? }
+        templates = context.nodes.select { |node| node.template? }
         if templates.size == 0
           raise "No template found!"
         elsif templates.size > 1
@@ -88,9 +88,9 @@ module WofWof
     private
     def template
       if meta_info[:template].nil?
-        PageNode.default_template(@node_repository)
+        PageNode.default_template(@context)
       else
-        @node_repository.find_by_path!(meta_info[:template])
+        @context.nodes.find_by_path!(meta_info[:template])
       end
     end
   end

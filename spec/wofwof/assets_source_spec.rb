@@ -25,7 +25,11 @@ describe AssetsSource do
     node_repository = mock "NodeRepository"
     node_repository.should_receive(:store).with(first_node)
     node_repository.should_receive(:store).with(second_node)
-    @instance.build_nodes(node_repository)
+
+    context = mock "Context"
+    context.should_receive(:nodes).any_number_of_times.and_return(node_repository)
+
+    @instance.build_nodes(context)
   end
 end
 

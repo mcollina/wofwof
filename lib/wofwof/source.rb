@@ -13,7 +13,7 @@ module WofWof
       @path_handler = path_handler
     end
 
-    def build_nodes(node_repository)
+    def build_nodes(context)
       raise NotImplementedError.new
     end
 

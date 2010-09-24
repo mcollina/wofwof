@@ -1,10 +1,10 @@
 module WofWof
   class LiquidTemplateSource < Source
 
-    def build_nodes(node_repository)
+    def build_nodes(context)
       path_handler.each do |path|
         path_handler.open(path, "r") do |io|
-          node_repository.store LiquidTemplateNode.new(node_repository, path, io.read)
+          context.nodes.store LiquidTemplateNode.new(context.nodes, path, io.read)
         end
       end
     end
