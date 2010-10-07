@@ -52,9 +52,11 @@ Then /^that the (.*) file contains the markdown representation of (.*)$/ do |des
 end
 
 Given /^the logging is configured to level (.*)$/ do |level|
-  pending # express the regexp above with the code you wish you had
+  @log_io = StringIO.new
+  @runtime.context.configuration.log_level = level
+  @runtime.context.configuration.log_io = @log_io 
 end
 
 Then /^it should log "([^"]*)"$/ do |message|
-  pending # express the regexp above with the code you wish you had
+  @log_io.string.should =~ /#{message}/
 end
