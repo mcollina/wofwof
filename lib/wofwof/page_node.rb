@@ -68,8 +68,9 @@ module WofWof
       return configuration.default_template_node unless configuration.default_template_node.nil? 
 
       default_template = configuration.default_template
+      default_template_node = nil
       unless default_template.nil?
-        configuration.default_template_node = context.nodes.find_by_path!(default_template)
+        default_template_node = context.nodes.find_by_path!(default_template)
       else   
         templates = context.nodes.select { |node| node.template? }
         if templates.size == 0
@@ -81,8 +82,12 @@ module WofWof
           default_template = templates.first.source_path
         end
 
-        configuration.default_template_node = templates.first
+        default_template_node = templates.first
       end
+
+      context.logger.info "using #{default_template_node.source_path.local_path} as a default template."
+      configuration.default_template_node = default_template_node 
+      default_template_node 
     end
 
     private

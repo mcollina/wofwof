@@ -65,7 +65,7 @@ describe Context do
 
   it "should create a logger without an io, setting it to STDOUT" do
     level = mock "level"
-    @configuration_store.should_receive(:loglevel_io).and_return(nil)
+    @configuration_store.should_receive(:log_io).and_return(nil)
     @configuration_store.should_receive(:log_level).and_return(level)
     logger = mock "logger"
     logger.should_receive(:level=).with(level)

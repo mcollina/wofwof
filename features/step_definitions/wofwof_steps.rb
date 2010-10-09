@@ -53,7 +53,7 @@ end
 
 Given /^the logging is configured to level (.*)$/ do |level|
   @log_io = StringIO.new
-  @runtime.context.configuration.log_level = level
+  @runtime.context.configuration.log_level = Logger.const_get(level.upcase)
   @runtime.context.configuration.log_io = @log_io 
 end
 

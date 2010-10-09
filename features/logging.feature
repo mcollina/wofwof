@@ -10,6 +10,6 @@ Feature: logging the creation of a website
     When I render the website
     Then everyone should see that there is an index.html file
     And that the index.html file contains the text in basic_website/pages/index.page
-    And it should log "using main.template as a default template"
     And it should log "rendering index.page into index.html"
+    And it should log "using main.template as a default template"
   

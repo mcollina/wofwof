@@ -13,7 +13,7 @@ describe PageNode do
     @source_path.should_receive(:change_ext).at_least(1).with("html").and_return(@dest_path)
     @path_handler = mock "PathHandler"
     @node_repository = mock "NodeRepository"
-    @context = mock "Context"
+    @context = mock_context 
     @context.should_receive(:nodes).any_number_of_times.and_return(@node_repository)
     @content = "the content"
     @path_handler.should_receive(:open).with(@source_path, "r").and_yield(StringIO.new(@content))
@@ -201,7 +201,7 @@ describe PageNode, "#class" do
   before(:each) do
     @node_repository = mock "NodeRepository"
     @configuration = mock "Configuration"
-    @context = mock "Context"
+    @context = mock_context 
     @context.should_receive(:configuration).any_number_of_times.and_return(@configuration)
     @context.should_receive(:nodes).any_number_of_times.and_return(@node_repository)
     @instance = PageNode
@@ -241,7 +241,7 @@ describe PageNode, "#class" do
     @configuration.should_receive(:default_template_node).and_return(nil)
     pattern = "the/pattern"
     @configuration.should_receive(:default_template).and_return(pattern)
-    node = mock "first"
+    node = mock_node "first"
     @node_repository.should_receive(:find_by_path!).with(pattern).and_return(node)
     @configuration.should_receive(:default_template_node=).with(node).and_return(nil)
     @instance.default_template(@context).should == node 

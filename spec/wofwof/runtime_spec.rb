@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
 describe Runtime do
   before(:each) do
-    @context = mock "Context"
+    @context = mock_context 
     @node_repository = mock "NodeRepository"
     Context.should_receive(:new).and_return(@context)
     @context.should_receive(:nodes).any_number_of_times.and_return(@node_repository) 
@@ -70,11 +70,16 @@ describe Runtime do
 
     dest_path = mock "DestPath"
     dest_path.should_receive(:rebase).with(base_path).and_return(rebased_dest_path)
+    dest_path.should_receive(:local_path).any_number_of_times.and_return("local")
+
+    source_path = mock "SourcePath"
+    source_path.should_receive(:local_path).any_number_of_times.and_return("local")
 
     node = mock "Node"
     node.should_receive(:buildable?).and_return(true)
     node.should_receive(:build).with(io)
-    node.should_receive(:dest_path).and_return(dest_path)
+    node.should_receive(:dest_path).at_least(1).and_return(dest_path)
+    node.should_receive(:source_path).at_least(1).and_return(source_path)
 
     source = mock "First Source"
     source.should_receive(:build_nodes).with(@context)
