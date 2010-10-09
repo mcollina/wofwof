@@ -74,10 +74,10 @@ module WofWof
       else   
         templates = context.nodes.select { |node| node.template? }
         if templates.size == 0
-          raise "No template found!"
+          raise "no template found!"
         elsif templates.size > 1
           # TODO replace XYZ with actual istructions.
-          raise "There is more than one template found, do XYZ to specify the default one." 
+          raise "there is more than one template found, do XYZ to specify the default one." 
         else 
           default_template = templates.first.source_path
         end

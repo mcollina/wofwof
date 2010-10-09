@@ -93,7 +93,42 @@ describe Runtime do
 
     @instance.sources << source
 
-    @instance.render
+    @instance.render.should == true
+  end
+
+  it "should not raise an exception if something goes wrong" do
+    io = mock "IO"
+
+    base_path = mock "BasePath"
+    
+    rebased_dest_path = mock "RebasedDestPath"
+
+    dest_path = mock "DestPath"
+    dest_path.should_receive(:rebase).with(base_path).and_return(rebased_dest_path)
+    dest_path.should_receive(:local_path).any_number_of_times.and_return("local")
+
+    source_path = mock "SourcePath"
+    source_path.should_receive(:local_path).any_number_of_times.and_return("local")
+
+    node = mock "Node"
+    node.should_receive(:buildable?).and_return(true)
+    node.should_receive(:build).with(io).and_raise(RuntimeError.new("an error"))
+    node.should_receive(:dest_path).at_least(1).and_return(dest_path)
+    node.should_receive(:source_path).at_least(1).and_return(source_path)
+
+    source = mock "First Source"
+    source.should_receive(:build_nodes).with(@context)
+    @node_repository.should_receive(:each).and_yield(node)
+
+    path_handler = mock "PathHandler"
+    path_handler.should_receive(:base_path).and_return(base_path)
+    path_handler.should_receive(:open).with(rebased_dest_path, "w").and_yield(io)
+    
+    @instance.dest_path_handler = path_handler
+
+    @instance.sources << source
+
+    @instance.render.should == false
   end
 
   it "should correctly skip an unbuildable node" do
