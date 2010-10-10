@@ -17,7 +17,14 @@ module WofWof
       io = STDOUT if io.nil?
 
       level = @configuration.log_level
-      level = Logger::FATAL if level.nil?
+
+      begin
+        level = Logger.const_get(level.to_str.upcase) if level.respond_to? :to_str
+      rescue NameError
+        level = nil
+      end
+
+      level = Logger::ERROR if level.nil?
 
       @logger = Logger.new(io)
       @logger.level = level
