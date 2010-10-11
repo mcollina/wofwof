@@ -22,6 +22,8 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
+rcov_opts = ["--text-summary", "--exclude","lib\/rspec,bin\/rspec,config\/boot.rb,lib\/rcov," + 
+             "spec,liquid,kramdown,diff-lcs,lib\/cucumber,lib\/gherkin,cucumber,lib\/term,features"]
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec) do |spec|
@@ -29,7 +31,7 @@ begin
 
   RSpec::Core::RakeTask.new(:rcov) do |spec|
     spec.rcov = true
-    spec.rcov_opts = ["--text-summary", "--exclude","lib\/rspec,bin\/rspec,config\/boot.rb,lib\/rcov,spec,liquid,kramdown,diff-lcs*"]
+    spec.rcov_opts = rcov_opts
   end
 rescue LoadError
   task :spec
@@ -41,7 +43,10 @@ task :rcov => :check_dependencies
 
 begin
   require 'cucumber/rake/task'
-  Cucumber::Rake::Task.new(:features)
+  Cucumber::Rake::Task.new(:features) do |cukes|
+    cukes.rcov = true
+    cukes.rcov_opts = rcov_opts
+  end
 rescue LoadError
   task :features 
 end
