@@ -26,3 +26,12 @@ Feature: User creates a basic website
     When I render the website
     Then everyone should see that there is an index.html file
     And that the index.html file contains the markdown representation of basic_website/markdown/index.page
+
+  Scenario: build a website with some assets
+    Given the assets folder basic_website/assets
+    When I render the website
+    Then everyone should see that there is an foo file
+    And everyone should see that there is an bar file
+    And that the foo file contains the text in basic_website/assets/foo
+    And that the bar file contains the text in basic_website/assets/bar
+    

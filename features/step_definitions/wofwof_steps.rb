@@ -57,6 +57,11 @@ Given /^the logging is configured to level (.*)$/ do |level|
   @runtime.context.configuration.log_io = @log_io 
 end
 
+Given /^the assets folder (.*)$/ do |path|
+  @runtime.sources << WofWof::AssetsSource.new(WofWof::FileSystemPathHandler.new(WofWof::Path.new(
+    File.join(File.dirname(__FILE__), "../", path), "")))
+end
+
 Then /^it should log "([^"]*)"$/ do |message|
   @log_io.string.should =~ /#{message}/
 end
