@@ -10,11 +10,12 @@ begin
     gem.email = "matteo.collina@gmail.com"
     gem.homepage = "http://github.com/mcollina/wofwof"
     gem.authors = ["Matteo Collina"]
-    gem.add_dependency "liquid", ">= 2.0.0"
-    gem.add_dependency "kramdown", ">= 0.10.0"
-    gem.add_development_dependency "rspec", ">= 2.0.0"
-    gem.add_development_dependency "rcov", ">= 0.9.7.1"
-    gem.add_development_dependency "cucumber", ">= 0.8.5"
+    gem.add_dependency "liquid", "~> 2.2"
+    gem.add_dependency "kramdown", "~> 0.10"
+    gem.add_development_dependency "rspec", "~> 2.0"
+    gem.add_development_dependency "rcov", "~> 0.9"
+    gem.add_development_dependency "cucumber", "~> 0.8"
+    gem.add_development_dependency "autotest", "~> 4.4"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -63,4 +64,8 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "wofwof #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+task :autotest => :check_dependencies do
+  exec "autotest"
 end
