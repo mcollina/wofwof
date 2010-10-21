@@ -2,8 +2,8 @@
 <html>
   <body>
     <ul>
-      <li>{% route_to a.page %}</li>
-      <li>{% route_to b.page %}</li>
+      <li>{% link_to a.page, 'A!' %}</li>
+      <li>{% link_to b.page, 'B!' %}</li>
     </ul>
     {{ main }}
   </body>

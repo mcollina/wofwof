@@ -22,7 +22,7 @@ module WofWof
           end
         end
       rescue Exception => e
-        context.logger.error(e.message)
+        context.logger.error(e)
         return false
       end
       true

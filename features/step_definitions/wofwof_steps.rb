@@ -74,7 +74,7 @@ end
 
 Then /^the (.*) file does not contain the text '([^']*)'$/ do |file, text|
   open(File.join(@website_dest, file), "r") do |dest_io|
-    dest_io.read.should !~ /.*#{text}.*/
+    dest_io.read.should_not =~ /.*#{text}.*/
   end
 end
 

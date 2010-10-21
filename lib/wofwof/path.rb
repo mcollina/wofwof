@@ -37,6 +37,10 @@ module WofWof
       @local_path.match regexp
     end
 
+    def =~ regexp
+      @local_path =~ regexp
+    end
+
     def hash
       @local_path.hash
     end
@@ -80,7 +84,8 @@ module WofWof
       other_local_path_splitted -= common
       other_local_path_splitted.each { |e| dest << e }
 
-      dest.join("/")
+      return nil if dest.size == 0 
+      dest.join("/") 
     end
 
     def change_ext(new_ext)

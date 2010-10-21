@@ -160,6 +160,15 @@ describe Path, "with basic parameters" do
     @instance.should_not match(/gh/)
     @instance.should match(/loc/)
   end
+  
+  it "should respond to =~" do
+    @instance.should respond_to(:match)
+  end
+
+  it "should match its local part against the regexp given to =~" do
+    @instance.should_not =~ /gh/
+    @instance.should =~ /loc/
+  end
 
   it "should respond to" do
     @instance.should respond_to(:<=>)
@@ -208,6 +217,10 @@ describe Path, "with basic parameters" do
   it "should generate the correct route to a node with a different base path" do
     other = Path.new("another_base_path", "other")
     @instance.route_to(other).should == other.local_path
+  end
+
+  it "should generate nil if asked to route to itself" do
+    @instance.route_to(@instance).should be_nil
   end
 
   it "should have an ext attribute" do

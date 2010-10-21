@@ -12,9 +12,9 @@ Feature: User creates a website with links
     And everyone should see that there is an b.html file
 
   Scenario: build two pages with the template linking to both
-    Then the a.html file contains the text '<a href="b.html">b</a>'
-    And the b.html file contains the text '<a href="a.html">a</a>'
+    Then the a.html file contains the text '<a href="b.html">B!</a>'
+    And the b.html file contains the text '<a href="a.html">A!</a>'
 
   Scenario: build two pages that should not link to themselves
-    And the a.html file does not contain the text '<a href="a.html">a</a>'
-    And the b.html file does not contain the text '<a href="b.html">b</a>'
+    And the a.html file does not contain the text '<a href="a.html">A!</a>'
+    And the b.html file does not contain the text '<a href="b.html">B!</a>'

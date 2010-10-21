@@ -11,9 +11,9 @@ describe FileSystemPathHandler do
     @instance = FileSystemPathHandler.new(@base_path)
 
     @all_elements = []
-    @right_pattern = "right"
+    @right_pattern = /right/
     @right_pattern_elements = []
-    @wrong_pattern = "wrong"
+    @wrong_pattern = /wrong_pattern/
 
     directories = ["right", "wrong"]
     directories.each do |dir|
@@ -30,6 +30,8 @@ describe FileSystemPathHandler do
         @all_elements << Path.new(@base_path, file_name)
       end
     end
+      
+    @right_pattern_elements = @all_elements.select { |e| e if e.local_path =~ @right_pattern }
 
     matcher = Dir.should_receive(:glob).with("full_path//**/*").any_number_of_times
     (files + directories).each { |e| matcher.and_yield(e) }

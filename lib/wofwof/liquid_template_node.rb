@@ -21,7 +21,7 @@ module WofWof
     end
 
     def self.route_to(context, input)
-      regexp = Regexp.new(input)
+      regexp = Regexp.new(input.gsub('.', "\\."))
       dest_node = context.registers[:node_repository].find { |node| node.source_path =~ regexp }
       raise NoRouteToNodeError.new(input) if dest_node.nil?
       context.registers[:current_node].dest_path.route_to(dest_node.dest_path)
@@ -48,7 +48,7 @@ module WofWof
     Liquid::Template.register_tag("route_to", RouteTo)
 
     class LinkTo < Liquid::Tag
-      SyntaxMulti = /^([a-zA-Z_0-9]+)[, ]*'(.*)'$/
+      SyntaxMulti = /^([a-zA-Z_0-9\.]+)[, ]*'(.*)'$/
 
       def initialize(tag_name, markup, tokens)
         if markup.strip! =~ SyntaxMulti
@@ -63,7 +63,11 @@ module WofWof
 
       def render(context)
         route = LiquidTemplateNode.route_to(context, @regexp)
-        "<a href=\"#{route}\">#{@title}</a>"
+        unless route.nil?
+          "<a href=\"#{route}\">#{@title}</a>"
+        else 
+          @title
+        end
       end
     end
     Liquid::Template.register_tag("link_to", LinkTo)
