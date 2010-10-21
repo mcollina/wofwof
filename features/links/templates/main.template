@@ -1,0 +1,10 @@
+
+<html>
+  <body>
+    <ul>
+      <li>{% route_to a.page %}</li>
+      <li>{% route_to b.page %}</li>
+    </ul>
+    {{ main }}
+  </body>
+</html>

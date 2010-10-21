@@ -65,3 +65,16 @@ end
 Then /^it should log "([^"]*)"$/ do |message|
   @log_io.string.should =~ /#{message}/
 end
+
+Then /^the (.*) file contains the text '([^']*)'$/ do |file, text|
+  open(File.join(@website_dest, file), "r") do |dest_io|
+    dest_io.read.should =~ /.*#{text}.*/
+  end
+end
+
+Then /^the (.*) file does not contain the text '([^']*)'$/ do |file, text|
+  open(File.join(@website_dest, file), "r") do |dest_io|
+    dest_io.read.should !~ /.*#{text}.*/
+  end
+end
+
