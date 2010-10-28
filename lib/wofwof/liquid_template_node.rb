@@ -63,11 +63,8 @@ module WofWof
 
       def render(context)
         route = LiquidTemplateNode.route_to(context, @regexp)
-        unless route.nil?
-          "<a href=\"#{route}\">#{@title}</a>"
-        else 
-          @title
-        end
+        route = context.registers[:current_node].dest_path.local_path if route.nil?
+        "<a href=\"#{route}\">#{@title}</a>"
       end
     end
     Liquid::Template.register_tag("link_to", LinkTo)

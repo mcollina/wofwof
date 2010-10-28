@@ -15,6 +15,6 @@ Feature: User creates a website with links
     Then the a.html file contains the text '<a href="b.html">B!</a>'
     And the b.html file contains the text '<a href="a.html">A!</a>'
 
-  Scenario: build two pages that should not link to themselves
-    And the a.html file does not contain the text '<a href="a.html">A!</a>'
-    And the b.html file does not contain the text '<a href="b.html">B!</a>'
+  Scenario: build two pages that should link to themselves
+    And the a.html file contains the text '<a href="a.html">A!</a>'
+    And the b.html file contains the text '<a href="b.html">B!</a>'

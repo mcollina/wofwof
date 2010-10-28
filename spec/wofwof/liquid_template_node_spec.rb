@@ -97,21 +97,22 @@ describe LiquidTemplateNode do
     instance.render(@node).should == "<a href=\"path/to/heaven\">Hello World</a>"
   end
 
-  it "should have a link_to tag that emits no link if we are linking to the same file." do
+  it "should have a link_to tag that emits a link even if it links to same file." do
     wrong_node = mock "Wrong Node"
     wrong_path = mock "Wrong path"
     wrong_node.should_receive(:source_path).and_return(wrong_path)
     wrong_path.should_receive(:=~).with(/a\.node/).and_return false
 
-    node_source_path = mock "Right source path"
+    node_source_path = mock "node source path"
     @node.should_receive(:source_path).and_return(node_source_path)
     node_source_path.should_receive(:=~).with(/a\.node/).and_return true
 
     @node_dest_path.should_receive(:route_to).with(@node_dest_path).and_return(nil)
+    @node_dest_path.should_receive(:local_path).and_return("path/to/heaven")
 
     @node_repository.should_receive(:find).and_yield(wrong_node).and_yield(@node).and_return(@node)
     instance = build("{% link_to a.node, 'Hello World' %}")
-    instance.render(@node).should == "Hello World"
+    instance.render(@node).should == "<a href=\"path/to/heaven\">Hello World</a>"
   end
 
   it "should have a link_to tag that throw exception if the dest node wasn't found" do
