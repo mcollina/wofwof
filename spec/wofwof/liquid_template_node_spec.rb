@@ -96,6 +96,10 @@ describe LiquidTemplateNode do
     instance = build("{% link_to a.node, 'Hello World' %}")
     instance.render(@node).should == "<a href=\"path/to/heaven\">Hello World</a>"
   end
+  
+  it "should have a link_to tag which raise an exception if the wrong syntax is used" do
+    lambda { build("{% link_to a.node, 'Hello World', third parameter %}") }.should raise_error
+  end
 
   it "should have a link_to tag that emits a link even if it links to same file." do
     wrong_node = mock "Wrong Node"

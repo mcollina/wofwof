@@ -24,7 +24,7 @@ rescue LoadError
 end
 
 rcov_opts = ["--text-summary", "--exclude","lib\/rspec,bin\/rspec,config\/boot.rb,lib\/rcov," + 
-             "spec,liquid,kramdown,diff-lcs,lib\/cucumber,lib\/gherkin,cucumber,lib\/term,features"]
+             "spec,lib\/liquid,kramdown,diff-lcs,lib\/cucumber,lib\/gherkin,cucumber,lib\/term,features"]
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec) do |spec|
