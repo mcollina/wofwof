@@ -3,11 +3,13 @@ require 'liquid'
 module WofWof
   class LiquidTemplateNode < Node
     
-    def initialize(node_repository, source_path, content, meta_info={})
+    def initialize(context, source_path, path_handler, meta_info={})
       super(source_path, meta_info)
       self.template = true
-      @liquid_template = Liquid::Template.parse(content)
-      @node_repository = node_repository
+      path_handler.open(source_path, "r") do |io|
+        @liquid_template = Liquid::Template.parse(io.read)
+      end
+      @node_repository = context.nodes
     end
 
     def render(node, hash={})

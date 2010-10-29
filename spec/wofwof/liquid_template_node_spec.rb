@@ -1,10 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require File.expand_path(File.join(File.dirname(__FILE__), 'shared_spec_node'))
+require 'stringio'
 
 describe LiquidTemplateNode do
 
   def build(content)
-    return LiquidTemplateNode.new(@node_repository, @source_path, content)
+    path_handler = mock "PathHandler"
+    path_handler.should_receive(:open).with(@source_path, "r").and_yield(StringIO.new(content))
+    context = mock "Context"
+    context.stub(:nodes).and_return(@node_repository)
+    return LiquidTemplateNode.new(context, @source_path, path_handler)
   end
 
   before(:each) do

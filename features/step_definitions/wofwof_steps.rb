@@ -18,13 +18,15 @@ Given /a new project/ do
 end
 
 Given /^the liquid template folder (.*)$/ do |path|
-  @runtime.sources << WofWof::LiquidTemplateSource.new(WofWof::FileSystemPathHandler.new(WofWof::Path.new(
-    File.join(File.dirname(__FILE__), "../", path), "")))
+  @runtime.sources << WofWof::GenericSource.build(WofWof::LiquidTemplateNode).
+                        new(WofWof::FileSystemPathHandler.new(WofWof::Path.new(
+                          File.join(File.dirname(__FILE__), "../", path), "")))
 end
 
 Given /^the pages folder (.*)$/ do |path|
-  @runtime.sources << WofWof::PageSource.new(WofWof::FileSystemPathHandler.new(WofWof::Path.new(
-    File.join(File.dirname(__FILE__), "../", path), "")))
+  @runtime.sources << WofWof::GenericSource.build(WofWof::PageNode).
+      new(WofWof::FileSystemPathHandler.new(WofWof::Path.new(
+        File.join(File.dirname(__FILE__), "../", path), "")))
 end
 
 When /^I render the website$/ do
@@ -58,8 +60,9 @@ Given /^the logging is configured to level (.*)$/ do |level|
 end
 
 Given /^the assets folder (.*)$/ do |path|
-  @runtime.sources << WofWof::AssetsSource.new(WofWof::FileSystemPathHandler.new(WofWof::Path.new(
-    File.join(File.dirname(__FILE__), "../", path), "")))
+  @runtime.sources << WofWof::GenericSource.build(WofWof::CopyNode).
+    new(WofWof::FileSystemPathHandler.new(WofWof::Path.new(
+      File.join(File.dirname(__FILE__), "../", path), "")))
 end
 
 Then /^it should log "([^"]*)"$/ do |message|
