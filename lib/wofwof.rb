@@ -15,5 +15,4 @@ module WofWof
   autoload :AssetsSource, "wofwof/assets_source"
   autoload :PageNode, "wofwof/page_node"
   autoload :PageSource, "wofwof/page_source"
-  autoload :GenericSource, "wofwof/generic_source"
 end
