@@ -1,8 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'shared_spec_node'))
 
-require 'stringio'
-
 describe PageNode do
 
   it_should_behave_like AllStandardNodes
@@ -16,7 +14,9 @@ describe PageNode do
     @context = mock_context 
     @context.should_receive(:nodes).any_number_of_times.and_return(@node_repository)
     @content = "the content"
-    @path_handler.should_receive(:open).with(@source_path, "r").and_yield(StringIO.new(@content))
+    io = mock "IO"
+    io.should_receive(:read).at_least(1).and_return(@content)
+    @path_handler.should_receive(:open).with(@source_path, "r").at_least(1).and_yield(io)
     @instance = PageNode.new(@context, @source_path, @path_handler)
   end
 

@@ -3,7 +3,7 @@ module WofWof
 
     def build_nodes(context)
       path_handler.each do |path|
-        context.nodes.store CopyNode.new(path, path_handler) 
+        context.nodes.store CopyNode.new(context, path, path_handler) 
       end
     end
   end

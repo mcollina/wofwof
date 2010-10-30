@@ -3,9 +3,7 @@ module WofWof
 
     def build_nodes(context)
       path_handler.each do |path|
-        path_handler.open(path, "r") do |io|
-          context.nodes.store LiquidTemplateNode.new(context.nodes, path, io.read)
-        end
+        context.nodes.store LiquidTemplateNode.new(context, path, path_handler)
       end
     end
   end

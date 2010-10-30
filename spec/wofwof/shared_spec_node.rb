@@ -75,6 +75,12 @@ share_as :AllStandardNodes do
   it "should not be a template" do
     @instance.should_not be_template
   end
+
+  it "should have a constructor with 3 parameters" do
+    lambda {
+      @instance.class.new(@context, @source_path, @path_handler)
+    }.should_not raise_error 
+  end
 end
 
 share_as :AllTemplateNodes do
